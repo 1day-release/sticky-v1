@@ -43,6 +43,30 @@
   font-weight: bold;
 }
 
+.people {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 40px;
+  height: 20px;
+  margin: auto 0;
+  text-align: right;
+  font-family: $ff-sans-serif;
+  font-weight: bold;
+
+  label {
+    display: inline-block;
+    margin-right: 0.5em;
+    font-size: 1.4rem;
+    color: $color-text-gray;
+  }
+
+  span {
+    display: inline-block;
+    font-size: 1.8rem;
+  }
+}
+
 
 // Header
 // =====================================

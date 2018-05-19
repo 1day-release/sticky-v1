@@ -21,12 +21,17 @@ $color-brand-main: #999; // Navy
 $color-brand-sub:  #bbb; // Brown
 
 $color-text-black: #363636;
+$color-text-gray: #e9e9e9;
 
 $color-gray: #bbb;
 $color-border-gray: #dedede;
 
 $color-brand-deep: (
-  #fff9B2, #d3f8e2, #cee5f2, #ffd0e6
+  #ade4f3,  // Blue
+  #cae69a,  // Green
+  #fff087,  // Yellow
+  #ffbf78,  // Orange
+  #fdb1d2   // Pink
 );
 
 
@@ -35,9 +40,6 @@ $color-brand-deep: (
 $ff-serif: serif;
 // $ff-sans-serif: 'Noto Sans', sans-serif;
 $ff-sans-serif: 'Montserrat', 'Noto Sans', sans-serif;
-
-// Font Size
-// =====================================
 
 
 // Media Queries

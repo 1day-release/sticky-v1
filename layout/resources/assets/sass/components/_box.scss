@@ -12,20 +12,20 @@
   display: inline-block;
   width: 180px;
   height: 180px;
-  padding: 10px;
-  padding-right: 7px;
-  padding-bottom: 20px;
+  padding: 15px 20px;
+  padding-right: 13px;
   border: 4px solid transparent;
   margin: 5px;
   font-family: $ff-sans-serif;
   line-height: 1.8;
   font-size: 1.2rem;
   color: $color-text-black;
-  box-shadow: 0 0 5px rgba(#000, 0.2);
   cursor: move;
   transition: 0.3s;
 
   textarea {
+    position: relative;
+    z-index: 10;
     width: 100%;
     height: 100%;
     padding: 0;
@@ -36,7 +36,7 @@
     background-color: transparent;
     resize: none;
     outline: none;
-    cursor: text;
+    cursor: move;
 
     &::-webkit-scrollbar{
       width: 5px;
@@ -53,14 +53,32 @@
     }
   }
 
-  @for $i from 1 through 4 {
+  @for $i from 1 through 5 {
     &.color#{$i} {
       background-color: nth($color-brand-deep, $i);
     }
   }
 
+  .nice {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    line-height: 0.8;
+    font-family: $ff-sans-serif;
+    font-size: 10.0rem;
+    color: rgba(#fff, 0.5);
+    font-weight: bold;
+    pointer-events: none;
+  }
+
   &.active {
     border-color: rgba(#000, 0.2);
+    cursor: auto;
+
+    textarea {
+      cursor: text;
+      pointer-events: auto;
+    }
   }
 }
 
