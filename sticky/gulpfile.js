@@ -41,5 +41,5 @@ gulp.task('build', function(){
 });
 
 gulp.task("default",['build', 'connect-sync'], function() {
-  gulp.watch(['./app/**', './resources/**', './routes/**'], ['build']);
+  gulp.watch(['./app/**', './resources/**', './routes/**', './public/**'], ['build']);
 });

@@ -6,80 +6,23 @@
   <title>Component | Sticky</title>
   <meta name="description" content="" />
   <meta name="keywords" content="" />
-
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet"></link>
-  <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"></link>
-  <link rel="stylesheet" href="/css/app.css" rel="stylesheet"></link>
 </head>
 <body>
-
-<div id="container">
-
-<div class="l-header">
-  <header>
-    <h1 class="logo">Sticky</h1>
-    <h2 class="board-title">ここにボード名が入ります</h2>
-  </header>
-</div>
-
-<main role="main">
-
-<div id="board-area">
-
-<!-- .Sticky -->
-<div class="sticky color1" style="top:40px; left:40px;">
-  <textarea>ここにテキストが入ります</textarea>
-  <ul class="action clearfix">
-    <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-    <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
-</div>
-<!-- /.Sticky -->
-
-<!-- .Sticky -->
-<div class="sticky color2" style="top:40px; left:250px;">
-  <textarea>ここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入ります</textarea>
-  <ul class="action clearfix">
-    <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-    <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
-  </ul>
-</div>
-<!-- /.Sticky -->
-
-<!-- .Sticky -->
-<div class="sticky color3 active" style="top:40px; left:460px;">
-  <textarea>ここにテキストが入ります</textarea>
-  <ul class="action clearfix">
-    <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-    <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
-  </ul>
-</div>
-<!-- /.Sticky -->
-
-<!-- .Sticky -->
-<div class="sticky color4" style="top:40px; left:670px;">
-  <textarea>ここにテキストが入ります</textarea>
-  <ul class="action clearfix">
-    <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-    <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
-  </ul>
-</div>
-<!-- /.Sticky -->
-
-<!-- .Sticky -->
-<div class="sticky color1" style="top:250px; left:40px;">
-  <textarea>ここにテキストが入ります</textarea>
-  <ul class="action clearfix">
-    <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-    <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
-  </ul>
-</div>
-<!-- /.Sticky -->
-
-</div><!-- /#board-area -->
-
-</main>
-
-</div>
-
+  <button onclick="createBoard()">ボードの作成</button>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+      <script type="text/javascript">
+        var socket = io.connect('http://163.44.171.245:18000');
+  socket.on("connect", function() {
+    console.log('connected');
+  });
+    socket.on('res-create-board', (data) => {
+      console.log('Created Board.', data);
+      location.href = '/board.html?board_id=' + data
+    });
+window.createBoard = () => {
+  console.log('test')
+    socket.emit('req-create-board', {});
+}
+      </script>
 </body>
 </html>
