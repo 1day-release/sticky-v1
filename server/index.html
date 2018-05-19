@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="materialize.min.css" />
+    <title>Server</title>
+    <style>
+.header{
+  color: #ee6e73;
+}
+    </style>
+  </head>
+  <body class="container">
+    <p><span class="connect-number"></span>人</p>
+    <button onclick="createBoard()">create board</button>
+    <button onclick="getBoard()">get board</button>
+    <button onclick="addSticky()">add sticky</button>
+    <button onclick="editBoardTitle()">edit board title</button>
+    <script src="socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha512/0.7.1/sha512.js"></script>
+    <script>
+      var socket = io.connect('http://163.44.171.245:18000');
+      socket.on("connect", function() {
+        console.log('connected');
+      });
+
+      let boardId = ''
+      socket.on('res-create-board', function(data) {
+        console.log('Created Board.', data);
+        boardId = data;
+      });
+      window.createBoard = () => {
+        socket.emit('req-create-board', {});
+      }
+
+      socket.on('res-get-board', function(data) {
+        console.log('Get Board', data);
+      });
+      window.getBoard = () => {
+        socket.emit('req-get-board', {board_id: boardId});
+      }
+
+      window.addSticky = () => {
+        socket.emit('req-add-sticky', {board_id: boardId, sticky_data: {sticky_id: (new Date()).getTime(), title: '後醍醐天皇', background_color: '#FF0000', tag: '室町時代', position_x: 100, position_y: 100}});
+      }
+
+      window.editBoardTitle = () => {
+        socket.emit('req-edit-board-title', {board_id: boardId, board_title: '上書き'});
+      }
+
+      socket.on('connect-number', function(data) {
+        console.log('Get connect number', data);
+        document.querySelector('.connect-number').innerHTML = data
+      });
+    </script>
+  </body>
+</html>
