@@ -17,7 +17,7 @@
   });
     socket.on('res-create-board', (data) => {
       console.log('Created Board.', data);
-      location.href = '/board.html?board_id=' + data
+      location.href = 'board.html?board_id=' + data
     });
 window.createBoard = () => {
   console.log('test')
