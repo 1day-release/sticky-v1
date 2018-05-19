@@ -22,6 +22,9 @@ $color-brand-sub:  #bbb; // Brown
 
 $color-text-black: #363636;
 
+$color-gray: #bbb;
+$color-border-gray: #dedede;
+
 $color-brand-deep: (
   #fff9B2, #d3f8e2, #cee5f2, #ffd0e6
 );
@@ -30,7 +33,8 @@ $color-brand-deep: (
 // Font Family
 // =====================================
 $ff-serif: serif;
-$ff-sans-serif: 'Noto Sans', sans-serif;
+// $ff-sans-serif: 'Noto Sans', sans-serif;
+$ff-sans-serif: 'Montserrat', 'Noto Sans', sans-serif;
 
 // Font Size
 // =====================================
