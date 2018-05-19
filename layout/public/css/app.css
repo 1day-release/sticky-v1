@@ -18,7 +18,7 @@ html body {
 
 #container {
   width: 100%;
-  min-width: 1000px;
+  min-width: 1120px;
 }
 
 .wrap {
@@ -123,15 +123,16 @@ html body {
 
 .sticky textarea::-webkit-scrollbar {
   width: 5px;
+  opacity: 0.7;
 }
 
 .sticky textarea::-webkit-scrollbar-track {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 5px;
 }
 
 .sticky textarea::-webkit-scrollbar-thumb {
-  background-color: #bbb;
+  background-color: rgba(187, 187, 187, 0.7);
   border-radius: 5px;
 }
 
@@ -159,7 +160,7 @@ html body {
   position: absolute;
   right: 0;
   bottom: 0;
-  line-height: 0.8;
+  line-height: 0.75;
   font-family: "Montserrat", "Noto Sans", sans-serif;
   font-size: 10.0rem;
   color: rgba(255, 255, 255, 0.5);
@@ -175,6 +176,22 @@ html body {
 .sticky.active textarea {
   cursor: text;
   pointer-events: auto;
+}
+
+.balloon-item::before {
+  content: "";
+  display: inline-block;
+  padding-left: 10px;
+  border-left: 2px solid;
+  margin-left: 10px;
+}
+
+.balloon-item:first-child::before {
+  content: none;
+}
+
+.balloon .AAA > span::before {
+  content: ":";
 }
 
 .action {
