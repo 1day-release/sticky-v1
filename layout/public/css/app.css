@@ -53,13 +53,26 @@ html body {
   box-sizing: border-box;
   display: inline-block;
   width: 200px;
-  min-height: 100px;
+  height: 150px;
   padding: 15px;
+  padding-bottom: 25px;
   margin: 5px;
   font-family: "Noto Sans", sans-serif;
   line-height: 1.7;
   color: #363636;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sticky textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: 0.05em;
+  background-color: transparent;
+  resize: none;
+  outline: none;
 }
 
 .sticky.color1 {
@@ -76,4 +89,48 @@ html body {
 
 .sticky.color4 {
   background-color: #ffd0e6;
+}
+
+.action {
+  position: absolute;
+  bottom: -15px;
+  left: 10px;
+}
+
+.action > li {
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+}
+
+.action > li:first-child {
+  margin-left: 0;
+}
+
+.action-icon {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #363636;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.action-icon:hover {
+  background-color: #e1e1e1;
+}
+
+.action-icon .far {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 20px;
+  height: 12px;
+  margin: auto;
 }
