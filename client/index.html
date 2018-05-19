@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body><html>
+        <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+          <title>Component | Sticky</title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+        
+          <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"></link> -->
+          <link rel="stylesheet" href="./css/app.css"></link>
+        </head>
+        <body>
+        
+        <div id="container">
+        
+        <div class="l-header">
+          <header>
+            <h1 class="logo">Sticky</h1>
+            <!-- <div class="">
+              <nav>
+                <ul class="">
+                  <li></li>
+                </ul>
+              </nav>
+            </div> -->
+          </header>
+        </div>
+        
+        <main role="main">
+        
+        <div id="board-area" v-for="item in items">
+        
+        <!-- .Sticky -->
+        <!-- <div id="board"> -->
+            <div id="sticky" class="sticky" 
+                v-bind:class='{active:isActive}'
+                v-bind:style="{top : top+'px', left : left+'px'}"
+                draggable="true"
+                @click="boxClick('item')"       
+                @dragstart="dragstart('item', $event)"
+                @dragend="dragend('item', $event)"
+                @dragenter="dragenter('item')">
+                <p>{{ message }}</p>
+                <!-- <textarea name="" id="" cols="30" rows="10">
+        
+                </textarea> -->
+            </div>
+
+        <!-- </div> -->
+        <!-- /.Sticky -->
+  
+        
+        </div><!-- /#board-area -->
+        <div class="add">
+            add
+            </div>
+        
+        </main>
+        
+        </div>
+        
+        </body>
+
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+      <script type="text/javascript">
+
+        new Vue({
+          el: '.sticky',
+          data: {
+            message: 'ここにテキストが入ります',
+            isActive: false,
+            top: 0,
+            left: 0,
+            
+          },
+          methods: {
+            boxClick:  function(item){
+                console.log("test")
+                this.message = "test"
+            },
+            dragstart (item,e) {
+                this.draggingItem = item
+                e.target.style.opacity = 0.5;
+                e.pageY
+            },
+            dragend (item,e) {
+                e.target.style.opacity = 1;
+                console.log("x",e.pageX,"y",e.pageY)
+                
+                this.top = e.pageY - 120
+                this.left = e.pageX
+                
+            }
+          }
+        })
+      </script>
+</html>
