@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+// ***********************************************
+//  Global Variables
+// ***********************************************
+$root: "../images/";
+
+
+// Size
+// =====================================
+$sp-min-width: 320px;
+$sp-max-width: 640px;
+
+$pc-min-width: 1000px;
+$pc-max-width: 1440px;
+
+
+// Color
+// =====================================
+$color-brand-main: #999; // Navy
+$color-brand-sub:  #bbb; // Brown
+
+$color-text-black: #363636;
+
+$color-brand-deep: (
+  #fff9B2, #d3f8e2, #cee5f2, #ffd0e6
+);
+
+
+// Font Family
+// =====================================
+$ff-serif: serif;
+$ff-sans-serif: 'Noto Sans', sans-serif;
+
+// Font Size
+// =====================================
+
+
+// Media Queries
+// =====================================
+$device-s: "screen and (max-width: 640px)";
+$device-l: "screen and (min-width: 641px)";

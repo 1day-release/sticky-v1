@@ -1,0 +1,136 @@
+@import url("//fonts.googleapis.com/css?family=Noto+Sans");
+
+html {
+  font-size: 10px;
+}
+
+html body {
+  font-size: 1.4rem;
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+#container {
+  width: 100%;
+  min-width: 1000px;
+}
+
+.wrap {
+  margin: 0 auto;
+}
+
+.l-header {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 15px 20px 20px;
+  background-color: #999;
+}
+
+.logo {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 3.0rem;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.logo a {
+  text-decoration: none;
+  color: #fff;
+}
+
+#board-area {
+  position: relative;
+}
+
+.sticky {
+  position: absolute;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 200px;
+  height: 150px;
+  padding: 15px;
+  padding-bottom: 25px;
+  margin: 5px;
+  font-family: "Noto Sans", sans-serif;
+  line-height: 1.7;
+  color: #363636;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sticky textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: 0.05em;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+}
+
+.sticky.color1 {
+  background-color: #fff9B2;
+}
+
+.sticky.color2 {
+  background-color: #d3f8e2;
+}
+
+.sticky.color3 {
+  background-color: #cee5f2;
+}
+
+.sticky.color4 {
+  background-color: #ffd0e6;
+}
+
+.action {
+  position: absolute;
+  bottom: -15px;
+  left: 10px;
+}
+
+.action > li {
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+}
+
+.action > li:first-child {
+  margin-left: 0;
+}
+
+.action-icon {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #363636;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.action-icon:hover {
+  background-color: #e1e1e1;
+}
+
+.action-icon .far {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 20px;
+  height: 12px;
+  margin: auto;
+}

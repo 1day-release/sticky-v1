@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+// ***********************************************
+//  Base
+// ***********************************************
+html {
+  font-size: 10px;
+
+  body {
+    font-size: 1.4rem;
+  }
+}
+
+.clearfix {
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+// xxx
+// =====================================
+#container {
+  width: 100%;
+  min-width: $pc-min-width;
+}
+
+.wrap {
+  margin: 0 auto;
+}
