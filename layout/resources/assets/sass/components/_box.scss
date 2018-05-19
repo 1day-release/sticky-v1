@@ -10,19 +10,25 @@
   position: absolute;
   box-sizing: border-box;
   display: inline-block;
-  width: 200px;
-  height: 150px;
-  padding: 15px;
-  padding-bottom: 25px;
+  width: 180px;
+  height: 180px;
+  padding: 10px;
+  padding-right: 7px;
+  padding-bottom: 20px;
+  border: 4px solid transparent;
   margin: 5px;
   font-family: $ff-sans-serif;
-  line-height: 1.7;
+  line-height: 1.8;
+  font-size: 1.2rem;
   color: $color-text-black;
   box-shadow: 0 0 5px rgba(#000, 0.2);
+  cursor: move;
+  transition: 0.3s;
 
   textarea {
     width: 100%;
     height: 100%;
+    padding: 0;
     border: none;
     font-family: inherit;
     line-height: inherit;
@@ -30,6 +36,21 @@
     background-color: transparent;
     resize: none;
     outline: none;
+    cursor: text;
+
+    &::-webkit-scrollbar{
+      width: 5px;
+
+      &-track{
+        background-color: lighten($color-gray, 30%);
+        border-radius: 5px;
+      }
+
+      &-thumb{
+        background-color: $color-gray;
+        border-radius: 5px;
+      }
+    }
   }
 
   @for $i from 1 through 4 {
@@ -37,10 +58,15 @@
       background-color: nth($color-brand-deep, $i);
     }
   }
+
+  &.active {
+    border-color: rgba(#000, 0.2);
+  }
 }
 
 .action {
   position: absolute;
+  z-index: 10;
   bottom: -15px;
   left: 10px;
 
@@ -66,7 +92,6 @@
 
     &:hover {
       background-color: lighten($color-brand-sub, 15%);
-      // transition: 0.3s;
     }
 
     .far {
