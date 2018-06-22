@@ -20,87 +20,174 @@
         </head>
         <body>
         
-        <div id="container">
-        
+      <div id="container">
+
         <div class="l-header">
           <header>
             <h1 class="logo">Sticky</h1>
-            <!-- <div class="">
-              <nav>
-                <ul class="">
-                  <li></li>
-                </ul>
-              </nav>
-            </div> -->
+            <h2 class="board-title">ここにボード名が入ります</h2>
+            <p class="people"><label>Active User:</label><span>10</span></p>
           </header>
         </div>
-        
+
         <main role="main">
-        
-        <div id="board-area" v-for="item in items">
-        
-        <!-- .Sticky -->
-        <!-- <div id="board"> -->
-            <div id="sticky" class="sticky" 
-                v-bind:class='{active:isActive}'
-                v-bind:style="{top : top+'px', left : left+'px'}"
+          <div id="board-area">
+            <!-- .Sticky -->
+              <!-- <div class="sticky color1" style="top:40px; left:40px;">
+                <textarea>ここにテキストが入ります</textarea>
+                <p class="nice">4</p>
+              </div> -->
+            <!-- /.Sticky -->
+            
+            <div id="sticky" class="sticky " 
+                v-for="item in items"
+                v-bind:class="[{'active':item.isActive}, getColor(item) ]"
+                v-bind:style="{top : item.position_y+'px', left : item.position_x+'px'}"
                 draggable="true"
-                @click="boxClick('item')"       
-                @dragstart="dragstart('item', $event)"
-                @dragend="dragend('item', $event)"
-                @dragenter="dragenter('item')">
-                <p>{{ message }}</p>
-                <!-- <textarea name="" id="" cols="30" rows="10">
-        
-                </textarea> -->
+                @click="boxClick(item,$event)"
+                @dragstart="dragstart(item, $event)"
+                @dragend="dragend(item, $event)">
+                <textarea v-model="item.message">{{ item.message }}</textarea>
+                <p class="nice">{{ getNics(item) }}</p>
+                <div class="balloon">
+                  <div class="balloon-item AAA">
+                    <img src="/images/icon-thumbsup.svg" alt="" />
+                    <span>{{ getNics(item) }}</span>
+                  </div>
+                  <div class="balloon-item">
+                    <ul class="color">
+                      <li><a href="" class="AAA color1" 
+                        @click.prevent="changeColor(item,1)">color1</a></li>
+                      <li><a href="" class="AAA color2"
+                        @click.prevent="changeColor(item,2)">color2</a></li>
+                      <li><a href="" class="AAA color3"
+                        @click.prevent="changeColor(item,3)">color3</a></li>
+                      <li><a href="" class="AAA color4"
+                        @click.prevent="changeColor(item,4)">color4</a></li>
+                      <li><a href="" class="AAA color5"
+                        @click.prevent="changeColor(item,5)">color5</a></li>
+                    </ul>
+                  </div>
+                  <div class="balloon-item delete"></div>
+                </div>
             </div>
 
         <!-- </div> -->
         <!-- /.Sticky -->
   
         
-        </div><!-- /#board-area -->
-        <div class="add">
-            add
+            <div id="add_btn" class="btn add_btn" 
+              @click="add( $event)">
+              add
             </div>
+
+          </div><!-- /#board-area -->
         
         </main>
-        
+        <div class="l-footer">
+          <footer>
+          </footer>
         </div>
+      </div>
         
-        </body>
+    </body>
 
       <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
       <script type="text/javascript">
-
-        new Vue({
-          el: '.sticky',
+    new Vue({
+          el: '#board-area',
           data: {
-            message: 'ここにテキストが入ります',
-            isActive: false,
-            top: 0,
-            left: 0,
-            
+              items:[
+                {
+                    message: 'ここにテキストが入ります',
+                    isActive: false,
+                    position_x: 0,
+                    position_y: 0,
+                    background_color: 2,
+                    text_color: "#000",
+                    nice: 2,
+                    offsetX: 0,
+                    offsety: 0           
+                  }
+                  
+              ],
+            offsetX:0,
+            offsetY:0,
+            box_size_x:200,
+            box_size_y:200
+          },
+          computed: {
+
           },
           methods: {
-            boxClick:  function(item){
-                console.log("test")
-                this.message = "test"
+            boxClick: function(item, e){
+                console.log(this)
+                item.title = "test"
+                if(item.isActive){
+                    item.isActive = false;
+                }else{
+                    item.isActive = true;
+                }
             },
-            dragstart (item,e) {
+            getColor: function(item){
+              console.log(item)
+              return "color"+item.background_color
+            },
+            changeColor: function(item,num){
+              item.background_color = num
+            },
+            getNics: function(item){
+              if(item.nice == 0){
+                return ""
+              }else{
+                return item.nice
+              }
+            },
+            getMessage: function(item){
+              console.log(this.items)               
+            },             
+            dragstart (item, e) {
                 this.draggingItem = item
-                e.target.style.opacity = 0.5;
-                e.pageY
+                this.offsetx = e.layerX;
+                this.offsety = e.layerY;
+                console.log("x",e.offsetX ,"y",e.offsetY)
             },
-            dragend (item,e) {
+            dragend (item, e) {
                 e.target.style.opacity = 1;
                 console.log("x",e.pageX,"y",e.pageY)
-                
-                this.top = e.pageY - 120
-                this.left = e.pageX
-                
+                console.log("offsetx",this.offsetX ,"offsety",this.offsetY)                
+                let board_obj = document.getElementById("board-area")
+                let board_size = board_obj.getBoundingClientRect()
+                next_position = {"x":e.pageX - this.offsetX,
+                            "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
+                console.log("board_pos",window.pageYOffset + board_size.top)
+                console.log("pos",next_position)
+                next_position = this.convertPosition(next_position)
+                item.position_x = next_position.x
+                item.position_y = next_position.y
+                console.log("pos_next",this.convertPosition(next_position))                
+                                
+            },
+            add ( e){
+                this.items.push({
+                  message: 'ここにテキストが入ります',
+                    isActive: false,
+                    position_x: 0,
+                    position_y: 0,
+                    background_color: 1,
+                    nice: 0,
+                    offsetX: 0,
+                    offsety: 0  
+                })
+            },
+            convertPosition (pos){
+                let next_position = {x: (pos.x-(this.box_size_x/2))/this.box_size_x, y: (pos.y-(this.box_size_y/2))/this.box_size_y}
+                next_position = {x:(Math.round(next_position.x)*this.box_size_x),
+                            y:(Math.round(next_position.y)*this.box_size_y)}
+                return next_position
             }
           }
         })
+
       </script>
 </html>
