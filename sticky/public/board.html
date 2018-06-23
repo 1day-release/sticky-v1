@@ -27,11 +27,13 @@
 <div id="board-area">
 
 <!-- .Sticky -->
-<div v-for="(value, index) in board.sticky" class="sticky color1" :style="{top:value.position_y + 'px', left:value.position_x + 'px'}">
-  <textarea v-model="value.title" @click="editSticky(value)"></textarea>
-  <ul class="action clearfix">
-    <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-    <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
+<div v-for="(value, index) in position">
+  <div v-for="(value2, index2) in value" class="sticky color1" :style="{top:value2.position_y + 'px', left:value2.position_x + 'px'}">
+    <textarea v-model="value2.title" @click="editSticky(value2)"></textarea>
+    <ul class="action clearfix">
+      <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
+      <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
+  </div>
 </div>
 <!-- /.Sticky -->
 
@@ -43,89 +45,9 @@
 </footer>
 </div>
 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-      <script type="text/javascript">
-var getUrlVars = function(){
-    var vars = {}; 
-    var param = location.search.substring(1).split('&');
-    for(var i = 0; i < param.length; i++) {
-        var keySearch = param[i].search(/=/);
-        var key = '';
-        if(keySearch != -1) key = param[i].slice(0, keySearch);
-        var val = param[i].slice(param[i].indexOf('=', 0) + 1);
-        if(key != '') vars[key] = decodeURI(val);
-    } 
-    return vars; 
-}
-
-        var socket = io.connect('http://163.44.171.245:18000');
-    socket.on("connect", function() {
-      console.log('connected');
-    });
-
-        new Vue({
-          el: '#container',
-          data: {
-            message: 'ここにテキストが入ります',
-            isActive: false,
-            top: 0,
-            left: 0,
-            board: {},
-            boardId: null,
-          },
-          mounted () {
-            this.boardId = getUrlVars().board_id
-            if (!this.boardId) {
-              location.href = '/'
-              return
-            }
-            console.log('on')
-            socket.on('res-get-board', (data) => {
-              console.log('Get Board', data);
-              if (data.board_id == this.boardId) {
-                this.board = data
-              }
-            });
-            socket.emit('req-get-board', {board_id: this.boardId});
-
-          },
-          methods: {
-            addSticky () {
-              socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: (new Date()).getTime(), title: '後醍醐天皇', background_color: '#FF0000', tag: '室町時代', position_x: this.board.sticky.length * 300, position_y: 300}});
-            },
-            boxClick:  function(item){
-                console.log("test")
-                this.message = "test"
-            },
-            dragstart (item,e) {
-                this.draggingItem = item
-                e.target.style.opacity = 0.5;
-                e.pageY
-            },
-            dragend (item,e) {
-                e.target.style.opacity = 1;
-                console.log("x",e.pageX,"y",e.pageY)
-                
-                this.top = e.pageY - 120
-                this.left = e.pageX
-                
-            },
-            editBoardTitle () {
-              title = ''
-              if (title = window.prompt('ボード名の編集')) {
-                socket.emit('req-edit-board-title', {board_id: this.boardId, board_title: title});
-              }
-             },
-            editSticky (value) {
-              title = ''
-              if (title = window.prompt('ボード名の編集')) {
-                value.title = title
-                socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
-              }
-             }
-          }
-        })
-      </script>
+      <script src="main.js"></script>
 </body>
 </html>
