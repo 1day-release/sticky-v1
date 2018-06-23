@@ -34,6 +34,7 @@ new Vue({
     boardId: null,
     position: [],
     stickyPositon: [],
+    sticky_data:{},
     offsetX:0,
     offsetY:0,
     stickySize:{x:200,y:200}
@@ -72,7 +73,7 @@ new Vue({
 
   },
   methods: {
-    addSticky () {
+    addSticky (backgroundColor) {
       let stickyId = (new Date()).getTime()
       let position = this.formatPosition(clone(this.position))
 
@@ -88,7 +89,7 @@ new Vue({
         }
       }
 
-      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '', background_color: '#FF0000', tag: '', position_x: 0, position_y: 0}, sticky_position: position});
+      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '', background_color: backgroundColor, tag: '', position_x: 0, position_y: 0, reaction: {good: 0}}, sticky_position: position});
     },
   activeSticky:  function(item){
     item.title = "test"
@@ -99,7 +100,7 @@ new Vue({
     }
   },
   getPosison(item){
-    console.log(item)
+      console.log(item)
     return {x:item.position_x * this.stickySize.x, y:item.position_y * this.stickySize.y }
   }, 
   dragstart (item, e) {
@@ -107,21 +108,29 @@ new Vue({
     this.offsetx = e.layerX;
     this.offsety = e.layerY;
     console.log("x",e.offsetX ,"y",e.offsetY)
+    console.log("Positon",this.position)
+    
+    // this.position[item.position_y][item.position_x] = null
+    
   },
   dragend (item, e) {
-      e.target.style.opacity = 1;
-      console.log("x",e.pageX,"y",e.pageY)
-      console.log("offsetx",this.offsetX ,"offsety",this.offsetY)                
-      let board_obj = document.getElementById("board-area")
-      let board_size = board_obj.getBoundingClientRect()
-      next_position = {"x":e.pageX - this.offsetX,
-                  "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
-      console.log("board_pos",window.pageYOffset + board_size.top)
-      console.log("pos",next_position)
-      next_position = this.convertPosition(next_position)
-      item.position_x = Math.round(next_position.x/this.stickySize.x)
-      item.position_y = Math.round(next_position.y/this.stickySize.y)
-      console.log("pos_next",this.convertPosition(next_position))                
+    
+    this.position[item.position_y][item.position_x] = null
+    e.target.style.opacity = 1;
+    let board_obj = document.getElementById("board-area")
+    let board_size = board_obj.getBoundingClientRect()
+    next_position = {"x":e.pageX - this.offsetX,
+    "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
+    next_position = this.convertPosition(next_position)
+    item.position_x = Math.round(next_position.x/this.stickySize.x) 
+    item.position_y = Math.round(next_position.y/this.stickySize.y)
+    this.position[item.position_y][item.position_x] = item.sticky_id
+    
+    console.log("item",item)
+    // console.log("this",this.board)
+    console.log("Positon",this.position)
+    // console.log("sticky_id",item.sticky_id)
+    socket.emit('req-edit-sticky-position', {board_id: this.boardId, sticky_position: this.position});
   },
   editBoardTitle () {
     title = ''
@@ -129,12 +138,38 @@ new Vue({
       socket.emit('req-edit-board-title', {board_id: this.boardId, board_title: title});
     }
   },
-  editSticky (value) {
-    title = ''
-    if (title = window.prompt('ボード名の編集')) {
-      value.title = title
-      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  changeStickyTitle (value) {
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  goodSticky (value) {
+    if (value.reaction.good >= 100) return
+    value.reaction.good += 1
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  ungoodSticky (value) {
+    if (value.reaction.good <= 0) return
+    value.reaction.good -= 1
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  changeStickyBackgroundColor (value, color) {
+    value.background_color = color
+    console.log(value.background_color)
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  removeSticky (stickyId) {
+    let position = this.formatPosition(clone(this.position))
+    let breakFlg = false
+    for (let i = 0; i < POSITION_MAX_ROW; i++) {
+      if (breakFlg) break
+      for (let j = 0; j < POSITION_MAX_COLUMN; j++) {
+        if (position[i][j] && position[i][j].sticky_id === stickyId) {
+          position[i][j] = null
+          breakFlg = true
+          break
+        }
+      }
     }
+    socket.emit('req-remove-sticky', {board_id: this.boardId, sticky_id: stickyId, sticky_position: position});
   },  
   convertPosition (pos){
     let next_position = {x: (pos.x-(this.stickySize.x/2))/this.stickySize.x, y: (pos.y-(this.stickySize.y/2))/this.stickySize.y}
