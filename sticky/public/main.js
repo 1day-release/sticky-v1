@@ -144,7 +144,7 @@ new Vue({
     socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
   },  
   goodSticky (value) {
-    if (value.reaction.good >= 100) return
+    if (value.reaction.good >= 99) return
     value.reaction.good += 1
     socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
   },  
@@ -195,6 +195,9 @@ new Vue({
     console.log('bb')
     this.activeStickyId = stickyId
     event.stopPropagation()
+  },
+  backTop () {
+    location.href = "index.html"
   }
 }
 })
