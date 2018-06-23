@@ -118,23 +118,32 @@ new Vue({
   },
   dragend (item,index,index2, e) {
     let position = clone(this.position)
-    // let position_y = clone(item.position_y)
-    // let position_x = clone(item.position_x)
+    let position_y = clone(item.position_y)
+    let position_x = clone(item.position_x)
     let board_obj = document.getElementById("board-area")
     let board_size = board_obj.getBoundingClientRect()
 
-    position[item.position_y][item.position_x] = null
-    e.target.style.opacity = 1;
     next_position = {"x":e.pageX - this.offsetX,
-      "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
+    "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
     next_position = this.convertPosition(next_position)
     item.position_x = Math.round(next_position.x/this.stickySize.x) 
     item.position_y = Math.round(next_position.y/this.stickySize.y)
-    position[item.position_y][item.position_x] = item.sticky_id
-
-    console.log("Positon",position)
-    socket.emit('req-edit-sticky-position', {board_id: this.boardId,sticky_position: position});
-    console.log("this.position",this.position)
+    if(position[item.position_y][item.position_x] == null){
+      
+      position[index][index2] = null
+      position[item.position_y][item.position_x] = item.sticky_id
+      position.forEach(function(val,index_){
+        val.forEach(function(val2,index2_){
+          if(val2 != null && typeof(val2) != "number"){
+            position[index_][index2_] = val2.sticky_id
+          }
+        })
+      })
+  
+      console.log("Positon",position)
+      socket.emit('req-edit-sticky-position', {board_id: this.boardId,sticky_position: position});
+      console.log("this.position",this.position)
+    }
   },
   editBoardTitle () {
     socket.emit('req-edit-board-title', {board_id: this.boardId, board_title: this.board.board_title});
