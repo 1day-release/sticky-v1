@@ -159,6 +159,7 @@
 
       &::before,
       &::after {
+        content: "";
         position: absolute;
         top: 0;
         right: 0;
@@ -168,6 +169,8 @@
         margin: auto;
         background-color: #000;
         transition-duration: $duration;
+
+        opacity: 0;
       }
 
       &::before {
@@ -181,19 +184,10 @@
       }
 
       &:hover {
+        border-color: #000;
 
         &::before,
         &::after {
-          content: "";
-          opacity: 0.2;
-        }
-      }
-
-      &.active {
-
-        &::before,
-        &::after {
-          content: "";
           opacity: 1;
         }
       }

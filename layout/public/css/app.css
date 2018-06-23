@@ -173,6 +173,7 @@ button {
 }
 
 .sticky-add .color-item::before,.sticky-add .color-item::after {
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -182,6 +183,7 @@ button {
   margin: auto;
   background-color: #000;
   transition-duration: 0.3s;
+  opacity: 0;
 }
 
 .sticky-add .color-item::before {
@@ -194,13 +196,11 @@ button {
   height: 1px;
 }
 
-.sticky-add .color-item:hover::before,.sticky-add .color-item:hover::after {
-  content: "";
-  opacity: 0.2;
+.sticky-add .color-item:hover {
+  border-color: #000;
 }
 
-.sticky-add .color-item.active::before,.sticky-add .color-item.active::after {
-  content: "";
+.sticky-add .color-item:hover::before,.sticky-add .color-item:hover::after {
   opacity: 1;
 }
 
