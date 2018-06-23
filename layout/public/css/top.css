@@ -26,6 +26,8 @@ button {
 }
 
 #container {
+  display: block;
+  overflow: hidden;
   width: 100%;
   min-width: 1120px;
 }
