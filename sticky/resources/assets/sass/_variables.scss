@@ -48,3 +48,30 @@ $ff-sans-serif: 'Montserrat', 'Noto Sans', sans-serif;
 // =====================================
 $device-s: "screen and (max-width: 640px)";
 $device-l: "screen and (min-width: 641px)";
+
+@mixin placeholderColor($color, $opacity) {
+  &:placeholder-shown {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &:-moz-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &::-moz-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &:-ms-input-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+}

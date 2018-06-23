@@ -7,6 +7,7 @@
   <meta name="description" content="" />
   <meta name="keywords" content="" />
 
+  <link rel="shortcut icon" href="favicon.gif">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet"></link>
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"></link>
   <link rel="stylesheet" href="css/app.css" rel="stylesheet"></link>
@@ -28,7 +29,8 @@
     <h2 class="board-title">
       <input type="text" name="" id="board_title_edit" v-model="board.board_title" maxlength="20"  @change="editBoardTitle"/>
     </h2>
-    <p class="people"><label>Active User:</label><span>10</span></p>
+    <button class="url-copy-button" @click="copyURL">URLをコピーする</button>
+    <div class="url-copy-complete" :class="{active: copiedClassActive}">コピー完了！</div>
   </header>
 </div>
 

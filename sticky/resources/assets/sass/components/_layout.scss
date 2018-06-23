@@ -99,6 +99,71 @@
   }
 }
 
+// /
+// =====================================
+.url-copy {
+  &-button {
+    position: absolute;
+    z-index: 30;
+    top: 0;
+    right: 20px;
+    bottom: 0;
+    height: 40px;
+    padding: 0 50px;
+    margin: auto 0;
+    font-family: $ff-sans-serif;
+    color: #fff;
+    font-weight: bold;
+    background-color: #33e053;
+    border-radius: 20px;
+    cursor: pointer;
+    transition-duration: $duration;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &-complete {
+    box-sizing: border-box;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    // right: -200px;
+    display: block;
+    width: 200px;
+    padding: 15px 20px;
+    text-align: center;
+    color: #9c9c9c;
+    font-weight: bold;
+    background-color: #dcdcdc;
+    opacity: 0;
+
+    &.active {
+      animation: anime1 4s ease;
+    }
+  }
+}
+
+@keyframes anime1 {
+    0% {
+    right: -200px;
+    opacity: 0;
+  }
+   10% {
+    right: 20px;
+    opacity: 1;
+  }
+   55% {
+    right: 20px;
+    opacity: 1;
+  }
+  100% {
+    right: -200px;
+    opacity: 0;
+  }
+}
+
 
 // Container
 // =====================================

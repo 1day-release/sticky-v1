@@ -26,12 +26,36 @@ button {
 }
 
 #container {
+  display: block;
+  overflow: hidden;
   width: 100%;
   min-width: 1120px;
 }
 
 #container.top {
+  position: relative;
+  min-width: 320px;
+  height: 100%;
+  min-height: 100vh;
   color: #fff;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  transition-duration: 0.3s;
+}
+
+#container.top::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
 }
 
 .wrap {
@@ -116,6 +140,48 @@ button {
 .people span {
   display: inline-block;
   font-size: 1.8rem;
+}
+
+.url-copy-button {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  right: 20px;
+  bottom: 0;
+  height: 40px;
+  padding: 0 50px;
+  margin: auto 0;
+  font-family: "Montserrat", "Noto Sans", sans-serif;
+  color: #fff;
+  font-weight: bold;
+  background-color: #33e053;
+  border-radius: 20px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.url-copy-button:hover {
+  opacity: 0.7;
+}
+
+.url-copy-complete {
+  box-sizing: border-box;
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  display: block;
+  width: 200px;
+  padding: 15px 20px;
+  text-align: center;
+  color: #9c9c9c;
+  font-weight: bold;
+  background-color: #dcdcdc;
+  opacity: 0;
+}
+
+.url-copy-complete.active {
+  -webkit-animation: anime1 4s ease;
+  animation: anime1 4s ease;
 }
 
 .sticky-add {
@@ -496,4 +562,48 @@ button {
 .delete-button {
   width: 18px;
   vertical-align: text-bottom;
+}
+
+@-webkit-keyframes anime1 {
+  0% {
+    right: -200px;
+    opacity: 0;
+  }
+
+  10% {
+    right: 20px;
+    opacity: 1;
+  }
+
+  55% {
+    right: 20px;
+    opacity: 1;
+  }
+
+  100% {
+    right: -200px;
+    opacity: 0;
+  }
+}
+
+@keyframes anime1 {
+  0% {
+    right: -200px;
+    opacity: 0;
+  }
+
+  10% {
+    right: 20px;
+    opacity: 1;
+  }
+
+  55% {
+    right: 20px;
+    opacity: 1;
+  }
+
+  100% {
+    right: -200px;
+    opacity: 0;
+  }
 }
