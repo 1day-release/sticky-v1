@@ -27,11 +27,6 @@
     <h1 class="logo">Sticky</h1>
     <h2 class="board-title">
       <input type="text" name="" id="board_title_edit" value="ここにボード名が入ります" maxlength="20" />
-      <label for="board_title_edit" class="edit">編集する</label>
-      <button class="edit">
-        適用する
-        <!-- <img src="/images/icon-pencil.svg" alt="ボード名を編集する" class="edit-button" /> -->
-      </button>
     </h2>
     <p class="people"><label>Active User:</label><span>10</span></p>
   </header>
@@ -40,6 +35,10 @@
 <main role="main">
 
 <div id="board-area">
+
+<button class="url-copy-button">URLをコピーする</button>
+
+<div class="url-copy-complete active">コピー完了！</div>
 
 <!-- .Sticky -->
 <div class="sticky color1" style="top:40px; left:40px;">
