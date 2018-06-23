@@ -230,6 +230,14 @@ button {
   transition: 0.3s;
 }
 
+.sticky.right-end .balloon {
+  left: -90px;
+}
+
+.sticky.right-end .balloon::after {
+  left: 165px;
+}
+
 .sticky textarea {
   position: relative;
   z-index: 10;

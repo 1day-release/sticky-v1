@@ -23,6 +23,17 @@
   cursor: move;
   transition: 0.3s;
 
+  &.right-end {
+
+    .balloon {
+      left: -90px;
+
+      &::after {
+        left: 165px;
+      }
+    }
+  }
+
   textarea {
     position: relative;
     z-index: 10;
