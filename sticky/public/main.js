@@ -205,7 +205,9 @@ new Vue({
     event.stopPropagation()
   },
   backTop () {
-    location.href = '/'
+    if (confirm('本当に退出しても宜しいでしょうか?')) {
+      location.href = '/'
+    }
   }
 }
 })
