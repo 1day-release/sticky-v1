@@ -20,6 +20,9 @@ socket.on("connect", function() {
   console.log('connected');
 });
 
+const POSITION_MAX_COLUMN = 5
+const POSITION_MAX_ROW= 5
+
 new Vue({
   el: '#container',
   data: {
@@ -42,8 +45,14 @@ new Vue({
     socket.on('res-get-board', (data) => {
       console.log('Get Board', data);
       if (data.board_id == this.boardId) {
-        let position = clone(data.sticky_position)
-        position.forEach((value, index) => {
+        let position = []
+        for (let i = 0; i < POSITION_MAX_ROW; i++) {
+          position[i] = []
+          for (let j = 0; j < POSITION_MAX_COLUMN; j++) {
+            position[i][j] = null
+          }
+        }
+        data.sticky_position.forEach((value, index) => {
           value.forEach((value2, index2) => {
             if (value2) {
               let matchSticky = _.findWhere(data.sticky, {sticky_id: value2})
@@ -51,6 +60,7 @@ new Vue({
             }
           })
         })
+        console.log(position)
         this.position = position
         this.board = data
       }
@@ -61,16 +71,21 @@ new Vue({
   methods: {
     addSticky () {
       let stickyId = (new Date()).getTime()
-      let position = clone(this.position)
-      position.forEach((value, index) => {
-        value.forEach((value2, index2) => {
-          if (value2) {
-            value2 = value2.sticky_id
+      let position = this.formatPosition(clone(this.position))
+
+      let breakFlg = false
+      for (let i = 0; i < POSITION_MAX_ROW; i++) {
+        if (breakFlg) break
+        for (let j = 0; j < POSITION_MAX_COLUMN; j++) {
+          if (!position[i][j]) {
+            position[i][j] = stickyId
+            breakFlg = true
+            break
           }
-        })
-      })
-      position.push([stickyId])
-      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '後醍醐天皇', background_color: '#FF0000', tag: '室町時代', position_x: 300, position_y: 300}, sticky_position: position});
+        }
+      }
+
+      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '', background_color: '#FF0000', tag: '', position_x: 0, position_y: 0}, sticky_position: position});
     },
   boxClick:  function(item){
     console.log("test")
@@ -101,6 +116,14 @@ new Vue({
       value.title = title
       socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
     }
+  },
+  formatPosition (position) {
+    for (let i = 0; i < POSITION_MAX_ROW; i++) {
+      for (let j = 0; j < POSITION_MAX_COLUMN; j++) {
+        if (position[i][j]) position[i][j] = position[i][j].sticky_id
+      }
+    }
+    return position
   }
 }
 })
