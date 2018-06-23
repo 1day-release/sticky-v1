@@ -29,14 +29,16 @@
 <!-- .Sticky -->
 <div v-for="(value, index) in position">
   <div v-for="(value2, index2) in value" v-if="value2" class="sticky color1"
-  v-bind:style="{top : getPosison(value2).y+'px', left : getPosison(value2).x+'px'}"
+  v-bind:style="{top : getPosison(value2).y+'px', left : getPosison(value2).x+'px', background: value2.background_color}"
   draggable="true"
   @dragstart="dragstart(value2, $event)"
-  @dragend="dragend(value2, $event)">>
-    <textarea v-model="value2.title" @click="editSticky(value2)"></textarea>
+  @dragend="dragend(value2, $event)">
+    <textarea v-model="value2.title" @change="changeStickyTitle(value2)"></textarea>
     <ul class="action clearfix">
-      <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-      <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
+      <li><a href="javascript:void(0)" @click="goodSticky(value2)" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a><span @click="ungoodSticky(value2)">{{value2.reaction.good}}<span></li>
+      <li><a href="javascript:void(0)" @click="changeStickyBackgroundColor(value2, '#FEEF8D')" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
+      <li><a href="javascript:void(0)" @click="changeStickyBackgroundColor(value2, '#AFE4F2')" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
+      <li><a href="javascript:void(0)" @click="removeSticky(value2.sticky_id)" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
   </div>
 </div>
 <!-- /.Sticky -->
@@ -44,8 +46,9 @@
 </div><!-- /#board-area -->
 
 </main>
-<footer>
-  <button @click="addSticky">付箋追加</button>
+<footer style="position:fixed; bottom: 0">
+  <button @click="addSticky('#FEEF8D')">黄色付箋追加</button>
+  <button @click="addSticky('#AFE4F2')">青付箋追加</button>
 </footer>
 </div>
 
