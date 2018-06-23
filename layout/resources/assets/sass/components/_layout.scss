@@ -8,6 +8,8 @@
 // =====================================
 #board-area {
   position: relative;
+  height: 100%;
+  min-height: calc(100vh - 93px);
 }
 
 
@@ -44,10 +46,33 @@
 }
 
 .board-title {
-  text-align: center;
-  font-family: $ff-sans-serif;
-  font-size: 2.6rem;
-  font-weight: 900;
+  &,
+  input[type=text] {
+    text-align: center;
+    font-family: $ff-sans-serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+  }
+
+  input[type=text] {
+    max-width: 20em;
+    padding: 0;
+    border: none;
+  }
+
+  .edit {
+    margin-left: 5px;
+    vertical-align: middle;
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: #b9b9b9;
+    cursor: pointer;
+
+    &-button {
+      path {
+      }
+    }
+  }
 }
 
 .people {
@@ -181,6 +206,7 @@
   height: 100%;
   background-color: #000;
   border-radius: 50%;
+  box-shadow: 0 0 5px rgba(#000, 0.7);
   transition-duration: $duration;
 
   &:hover {

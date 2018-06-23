@@ -15,6 +15,7 @@
     window.addEventListener('load', function(){
       deSVG('.add-button', true);
       deSVG('.delete-button', true);
+      deSVG('.edit-button', true);
     });
   </script>
 </head>
@@ -25,7 +26,14 @@
 <div class="l-header">
   <header>
     <h1 class="logo">Sticky</h1>
-    <h2 class="board-title">ここにボード名が入ります</h2>
+    <h2 class="board-title">
+      <input type="text" name="" id="board_title_edit" value="ここにボード名が入ります" maxlength="20" />
+      <label for="board_title_edit" class="edit">編集する</label>
+      <button class="edit">
+        適用する
+        <!-- <img src="/images/icon-pencil.svg" alt="ボード名を編集する" class="edit-button" /> -->
+      </button>
+    </h2>
     <p class="people"><label>Active User:</label><span>10</span></p>
   </header>
 </div>

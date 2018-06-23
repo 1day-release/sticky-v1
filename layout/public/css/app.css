@@ -30,12 +30,18 @@ button {
   min-width: 1120px;
 }
 
+#container.top {
+  color: #fff;
+}
+
 .wrap {
   margin: 0 auto;
 }
 
 #board-area {
   position: relative;
+  height: 100%;
+  min-height: calc(100vh - 93px);
 }
 
 .l-header {
@@ -66,11 +72,26 @@ button {
   color: #fff;
 }
 
-.board-title {
+.board-title,.board-title input[type=text] {
   text-align: center;
   font-family: "Montserrat", "Noto Sans", sans-serif;
   font-size: 2.6rem;
   font-weight: 900;
+}
+
+.board-title input[type=text] {
+  max-width: 20em;
+  padding: 0;
+  border: none;
+}
+
+.board-title .edit {
+  margin-left: 5px;
+  vertical-align: middle;
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: #b9b9b9;
+  cursor: pointer;
 }
 
 .people {
@@ -188,6 +209,7 @@ button {
   height: 100%;
   background-color: #000;
   border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   transition-duration: 0.3s;
 }
 
