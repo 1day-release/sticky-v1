@@ -93,7 +93,12 @@ button {
 
 .logo a {
   text-decoration: none;
-  color: #fff;
+  color: #000;
+  transition-duration: 0.3s;
+}
+
+.logo a:hover {
+  opacity: 0.6;
 }
 
 .board-title,.board-title input[type=text] {
