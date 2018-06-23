@@ -35,13 +35,16 @@
   font-family: $ff-sans-serif;
   font-size: 2.0rem;
   font-weight: 900;
-  // color: #fff;
   color: $color-text-black;
-  // letter-spacing: 0.05em;
 
   a {
     text-decoration: none;
-    color: #fff;
+    color: #000;
+    transition-duration: $duration;
+
+    &:hover {
+      opacity: 0.6;
+    }
   }
 }
 
