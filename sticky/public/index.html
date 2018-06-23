@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div id="container" class="top" style="background-image: url(//source.unsplash.com/random);">
+<div id="container" class="top" style="background-image: url(//source.unsplash.com/category/creative);">
 
 <main role="main">
   <div class="wrapper">
@@ -24,13 +24,30 @@
       Create board link.
     </p>
 
-    <input type="text" name="" id="" value="" placeholder="ボードタイトルを入力" />
+    <input type="text" name="title" id="title" value="" placeholder="ボードタイトルを入力" />
 
-    <button>ボードを作成</button>
+    <button onclick="createBoard()">ボードを作成</button>
   </div>
 </main>
 
 </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+              <script type="text/javascript">
+                var socket = io.connect('http://163.44.171.245:18000');
+socket.on("connect", function() {
+  console.log('connected');
+});
+socket.on('res-create-board', (data) => {
+  console.log('Created Board.', data);
+  location.href = 'board.html?board_id=' + data
+});
+window.createBoard = () => {
+  let title = document.querySelector('#title').value
+  if (!title) return
+
+  socket.emit('req-create-board', {board_title: title});
+}
+      </script>
 
 </body>
 </html>
