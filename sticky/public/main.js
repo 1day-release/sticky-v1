@@ -34,6 +34,7 @@ new Vue({
     boardId: null,
     position: [],
     stickyPositon: [],
+    sticky_data:{},
     offsetX:0,
     offsetY:0,
     stickySize:{x:200,y:200}
@@ -99,7 +100,7 @@ new Vue({
     }
   },
   getPosison(item){
-    console.log(item)
+      console.log(item)
     return {x:item.position_x * this.stickySize.x, y:item.position_y * this.stickySize.y }
   }, 
   dragstart (item, e) {
@@ -107,21 +108,29 @@ new Vue({
     this.offsetx = e.layerX;
     this.offsety = e.layerY;
     console.log("x",e.offsetX ,"y",e.offsetY)
+    console.log("Positon",this.position)
+    
+    // this.position[item.position_y][item.position_x] = null
+    
   },
   dragend (item, e) {
+      console.log("item",item)
+      console.log("this",this.board)
+      console.log("Positon",this.position)
+      console.log("sticky_id",item.sticky_id)
+
+      this.position[item.position_y][item.position_x] = null
       e.target.style.opacity = 1;
-      console.log("x",e.pageX,"y",e.pageY)
-      console.log("offsetx",this.offsetX ,"offsety",this.offsetY)                
       let board_obj = document.getElementById("board-area")
       let board_size = board_obj.getBoundingClientRect()
       next_position = {"x":e.pageX - this.offsetX,
                   "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
-      console.log("board_pos",window.pageYOffset + board_size.top)
-      console.log("pos",next_position)
       next_position = this.convertPosition(next_position)
-      item.position_x = Math.round(next_position.x/this.stickySize.x)
+      item.position_x = Math.round(next_position.x/this.stickySize.x) 
       item.position_y = Math.round(next_position.y/this.stickySize.y)
-      console.log("pos_next",this.convertPosition(next_position))                
+      this.position[item.position_y][item.position_x] = item.sticky_id
+
+      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '', background_color: '#FF0000', tag: '', position_x: 0, position_y: 0}, sticky_position: position});
   },
   editBoardTitle () {
     title = ''
