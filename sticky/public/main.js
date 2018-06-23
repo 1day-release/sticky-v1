@@ -53,7 +53,7 @@ new Vue({
     })
     socket.on('res-get-board', (data) => {
       console.log('Get Board', data);
-      if (data.board_id == this.boardId) {
+      if (data.board_id == this.boardId) {  
         let position = []
         for (let i = 0; i < POSITION_MAX_ROW; i++) {
           position[i] = []
@@ -104,38 +104,37 @@ new Vue({
         item.isActive = true;
     }
   },
-  getPosison(item){
-      console.log(item)
-    return {x:item.position_x * this.stickySize.x, y:item.position_y * this.stickySize.y }
+  getPosison(index, index2){
+    // return {x:item.position_x * this.stickySize.x, y:item.position_y * this.stickySize.y }
+    console.log()
+    return {x:index2 * this.stickySize.x, y:index * this.stickySize.y }
   }, 
   dragstart (item, e) {
     this.draggingItem = item
     this.offsetx = e.layerX;
     this.offsety = e.layerY;
-    console.log("x",e.offsetX ,"y",e.offsetY)
-    console.log("Positon",this.position)
-    
-    // this.position[item.position_y][item.position_x] = null
-    
+    // console.log("x",e.offsetX ,"y",e.offsetY)
+    // console.log("Positon",this.position)
   },
-  dragend (item, e) {
-    
-    this.position[item.position_y][item.position_x] = null
-    e.target.style.opacity = 1;
+  dragend (item,index,index2, e) {
+    let position = clone(this.position)
+    // let position_y = clone(item.position_y)
+    // let position_x = clone(item.position_x)
     let board_obj = document.getElementById("board-area")
     let board_size = board_obj.getBoundingClientRect()
+
+    position[item.position_y][item.position_x] = null
+    e.target.style.opacity = 1;
     next_position = {"x":e.pageX - this.offsetX,
-    "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
+      "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
     next_position = this.convertPosition(next_position)
     item.position_x = Math.round(next_position.x/this.stickySize.x) 
     item.position_y = Math.round(next_position.y/this.stickySize.y)
-    this.position[item.position_y][item.position_x] = item.sticky_id
-    
-    console.log("item",item)
-    // console.log("this",this.board)
-    console.log("Positon",this.position)
-    // console.log("sticky_id",item.sticky_id)
-    socket.emit('req-edit-sticky-position', {board_id: this.boardId, sticky_position: this.position});
+    position[item.position_y][item.position_x] = item.sticky_id
+
+    console.log("Positon",position)
+    socket.emit('req-edit-sticky-position', {board_id: this.boardId,sticky_position: position});
+    console.log("this.position",this.position)
   },
   editBoardTitle () {
     socket.emit('req-edit-board-title', {board_id: this.boardId, board_title: this.board.board_title});
