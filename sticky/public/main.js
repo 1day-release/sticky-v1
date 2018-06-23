@@ -114,23 +114,23 @@ new Vue({
     
   },
   dragend (item, e) {
-      console.log("item",item)
-      console.log("this",this.board)
-      console.log("Positon",this.position)
-      console.log("sticky_id",item.sticky_id)
-
-      this.position[item.position_y][item.position_x] = null
-      e.target.style.opacity = 1;
-      let board_obj = document.getElementById("board-area")
-      let board_size = board_obj.getBoundingClientRect()
-      next_position = {"x":e.pageX - this.offsetX,
-                  "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
-      next_position = this.convertPosition(next_position)
-      item.position_x = Math.round(next_position.x/this.stickySize.x) 
-      item.position_y = Math.round(next_position.y/this.stickySize.y)
-      this.position[item.position_y][item.position_x] = item.sticky_id
-
-      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '', background_color: '#FF0000', tag: '', position_x: 0, position_y: 0}, sticky_position: position});
+    
+    this.position[item.position_y][item.position_x] = null
+    e.target.style.opacity = 1;
+    let board_obj = document.getElementById("board-area")
+    let board_size = board_obj.getBoundingClientRect()
+    next_position = {"x":e.pageX - this.offsetX,
+    "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
+    next_position = this.convertPosition(next_position)
+    item.position_x = Math.round(next_position.x/this.stickySize.x) 
+    item.position_y = Math.round(next_position.y/this.stickySize.y)
+    this.position[item.position_y][item.position_x] = item.sticky_id
+    
+    console.log("item",item)
+    // console.log("this",this.board)
+    console.log("Positon",this.position)
+    // console.log("sticky_id",item.sticky_id)
+    socket.emit('req-edit-sticky-position', {board_id: this.boardId, sticky_position: this.position});
   },
   editBoardTitle () {
     title = ''
