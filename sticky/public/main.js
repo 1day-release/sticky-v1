@@ -72,7 +72,7 @@ new Vue({
 
   },
   methods: {
-    addSticky () {
+    addSticky (backgroundColor) {
       let stickyId = (new Date()).getTime()
       let position = this.formatPosition(clone(this.position))
 
@@ -88,7 +88,7 @@ new Vue({
         }
       }
 
-      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '', background_color: '#FF0000', tag: '', position_x: 0, position_y: 0}, sticky_position: position});
+      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '', background_color: backgroundColor, tag: '', position_x: 0, position_y: 0, reaction: {good: 0}}, sticky_position: position});
     },
   activeSticky:  function(item){
     item.title = "test"
@@ -129,12 +129,38 @@ new Vue({
       socket.emit('req-edit-board-title', {board_id: this.boardId, board_title: title});
     }
   },
-  editSticky (value) {
-    title = ''
-    if (title = window.prompt('ボード名の編集')) {
-      value.title = title
-      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  changeStickyTitle (value) {
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  goodSticky (value) {
+    if (value.reaction.good >= 100) return
+    value.reaction.good += 1
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  ungoodSticky (value) {
+    if (value.reaction.good <= 0) return
+    value.reaction.good -= 1
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  changeStickyBackgroundColor (value, color) {
+    value.background_color = color
+    console.log(value.background_color)
+    socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
+  },  
+  removeSticky (stickyId) {
+    let position = this.formatPosition(clone(this.position))
+    let breakFlg = false
+    for (let i = 0; i < POSITION_MAX_ROW; i++) {
+      if (breakFlg) break
+      for (let j = 0; j < POSITION_MAX_COLUMN; j++) {
+        if (position[i][j] && position[i][j].sticky_id === stickyId) {
+          position[i][j] = null
+          breakFlg = true
+          break
+        }
+      }
     }
+    socket.emit('req-remove-sticky', {board_id: this.boardId, sticky_id: stickyId, sticky_position: position});
   },  
   convertPosition (pos){
     let next_position = {x: (pos.x-(this.stickySize.x/2))/this.stickySize.x, y: (pos.y-(this.stickySize.y/2))/this.stickySize.y}
