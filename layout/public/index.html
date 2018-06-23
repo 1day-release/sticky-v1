@@ -10,6 +10,13 @@
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet"></link>
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"></link>
   <link rel="stylesheet" href="/css/app.css" rel="stylesheet"></link>
+  <script src="//unpkg.com/desvg@1.0.0/desvg.js"></script>
+  <script>
+    window.addEventListener('load', function(){
+      deSVG('.add-button', true);
+      deSVG('.delete-button', true);
+    });
+  </script>
 </head>
 <body>
 
@@ -30,58 +37,186 @@
 <!-- .Sticky -->
 <div class="sticky color1" style="top:40px; left:40px;">
   <textarea>ここにテキストが入ります</textarea>
-  <p class="nice">4</p>
+  <p class="nice">3</p>
+  <div class="balloon">
+    <div class="balloon-item">
+      <div class="action">
+        <button>
+          <img src="/images/icon-thumbsup.svg" alt="" />
+        </button>
+        <span>3</span>
+      </div>
+    </div>
+    <div class="balloon-item">
+      <ul class="color clearfix">
+        <li><a href="#" class="color-item color1 active"></a></li>
+        <li><a href="#" class="color-item color2"></a></li>
+        <li><a href="#" class="color-item color3"></a></li>
+        <li><a href="#" class="color-item color4"></a></li>
+        <li><a href="#" class="color-item color5"></a></li>
+      </ul>
+    </div>
+    <div class="balloon-item">
+      <button class="delete">
+        <img src="/images/icon-trash.svg" alt="付箋を削除する" class="delete-button">
+      </button>
+    </div>
+  </div>
 </div>
 <!-- /.Sticky -->
 
 <!-- .Sticky -->
 <div class="sticky color2" style="top:40px; left:250px;">
   <textarea>ここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入りますここにテキストが入ります</textarea>
+  <p class="nice"></p>
+  <div class="balloon">
+    <div class="balloon-item">
+      <div class="action">
+        <button>
+          <img src="/images/icon-thumbsup.svg" alt="" />
+        </button>
+        <span>0</span>
+      </div>
+    </div>
+    <div class="balloon-item">
+      <ul class="color clearfix">
+        <li><a href="#" class="color-item color1"></a></li>
+        <li><a href="#" class="color-item color2 active"></a></li>
+        <li><a href="#" class="color-item color3"></a></li>
+        <li><a href="#" class="color-item color4"></a></li>
+        <li><a href="#" class="color-item color5"></a></li>
+      </ul>
+    </div>
+    <div class="balloon-item">
+      <button class="delete">
+        <img src="/images/icon-trash.svg" alt="付箋を削除する" class="delete-button">
+      </button>
+    </div>
+  </div>
 </div>
 <!-- /.Sticky -->
 
 <!-- .Sticky -->
-<div class="sticky color3 active" style="top:40px; left:460px;">
+<div class="sticky color3" style="top:40px; left:460px;">
   <textarea>ここにテキストが入ります</textarea>
   <p class="nice">4</p>
   <div class="balloon">
-    <div class="balloon-item AAA">
-      <img src="/images/icon-thumbsup.svg" alt="" />
-      <span>4</span>
+    <div class="balloon-item">
+      <div class="action">
+        <button>
+          <img src="/images/icon-thumbsup.svg" alt="" />
+        </button>
+        <span>4</span>
+      </div>
     </div>
     <div class="balloon-item">
-      <ul class="color">
-        <li><a href="" class="AAA color1"></a></li>
-        <li><a href="" class="AAA color2"></a></li>
-        <li><a href="" class="AAA color3"></a></li>
-        <li><a href="" class="AAA color4"></a></li>
-        <li><a href="" class="AAA color5"></a></li>
+      <ul class="color clearfix">
+        <li><a href="#" class="color-item color1"></a></li>
+        <li><a href="#" class="color-item color2"></a></li>
+        <li><a href="#" class="color-item color3 active"></a></li>
+        <li><a href="#" class="color-item color4"></a></li>
+        <li><a href="#" class="color-item color5"></a></li>
       </ul>
     </div>
-    <div class="balloon-item delete"></div>
+    <div class="balloon-item">
+      <button class="delete">
+        <img src="/images/icon-trash.svg" alt="付箋を削除する" class="delete-button">
+      </button>
+    </div>
   </div>
-  <!-- <ul class="action clearfix">
-    <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
-    <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
-  </ul> -->
 </div>
 <!-- /.Sticky -->
 
 <!-- .Sticky -->
 <div class="sticky color4" style="top:40px; left:670px;">
   <textarea>ここにテキストが入ります</textarea>
+  <p class="nice"></p>
+  <div class="balloon">
+    <div class="balloon-item">
+      <div class="action">
+        <button>
+          <img src="/images/icon-thumbsup.svg" alt="" />
+        </button>
+        <span>0</span>
+      </div>
+    </div>
+    <div class="balloon-item">
+      <ul class="color clearfix">
+        <li><a href="#" class="color-item color1"></a></li>
+        <li><a href="#" class="color-item color2"></a></li>
+        <li><a href="#" class="color-item color3"></a></li>
+        <li><a href="#" class="color-item color4 active"></a></li>
+        <li><a href="#" class="color-item color5"></a></li>
+      </ul>
+    </div>
+    <div class="balloon-item">
+      <button class="delete">
+        <img src="/images/icon-trash.svg" alt="付箋を削除する" class="delete-button">
+      </button>
+    </div>
+  </div>
 </div>
 <!-- /.Sticky -->
 
 <!-- .Sticky -->
-<div class="sticky color5" style="top:40px; left:890px;">
+<div class="sticky right-end color5 active" style="top:40px; left:890px;">
   <textarea>ここにテキストが入ります</textarea>
+  <p class="nice"></p>
+  <div class="balloon">
+    <div class="balloon-item">
+      <div class="action">
+        <button>
+          <img src="/images/icon-thumbsup.svg" alt="" />
+        </button>
+        <span>0</span>
+      </div>
+    </div>
+    <div class="balloon-item">
+      <ul class="color clearfix">
+        <li><a href="#" class="color-item color1"></a></li>
+        <li><a href="#" class="color-item color2"></a></li>
+        <li><a href="#" class="color-item color3"></a></li>
+        <li><a href="#" class="color-item color4"></a></li>
+        <li><a href="#" class="color-item color5 active"></a></li>
+      </ul>
+    </div>
+    <div class="balloon-item">
+      <button class="delete">
+        <img src="/images/icon-trash.svg" alt="付箋を削除する" class="delete-button">
+      </button>
+    </div>
+  </div>
 </div>
 <!-- /.Sticky -->
 
 <!-- .Sticky -->
 <div class="sticky color1" style="top:250px; left:40px;">
   <textarea>ここにテキストが入ります</textarea>
+  <p class="nice"></p>
+  <div class="balloon">
+    <div class="balloon-item">
+      <div class="action">
+        <button>
+          <img src="/images/icon-thumbsup.svg" alt="" />
+        </button>
+        <span>0</span>
+      </div>
+    </div>
+    <div class="balloon-item">
+      <ul class="color clearfix">
+        <li><a href="#" class="color-item color1 active"></a></li>
+        <li><a href="#" class="color-item color2"></a></li>
+        <li><a href="#" class="color-item color3"></a></li>
+        <li><a href="#" class="color-item color4"></a></li>
+        <li><a href="#" class="color-item color5"></a></li>
+      </ul>
+    </div>
+    <div class="balloon-item">
+      <button class="delete">
+        <img src="/images/icon-trash.svg" alt="付箋を削除する" class="delete-button">
+      </button>
+    </div>
+  </div>
 </div>
 <!-- /.Sticky -->
 
@@ -91,6 +226,21 @@
 
 <div class="l-footer">
   <footer>
+    <div class="sticky-add">
+      <div class="balloon">
+        <label class="label">作成</label>
+        <ul class="color clearfix">
+          <li><a href="#" class="color-item color1 active"></a></li>
+          <li><a href="#" class="color-item color2"></a></li>
+          <li><a href="#" class="color-item color3"></a></li>
+          <li><a href="#" class="color-item color4"></a></li>
+          <li><a href="#" class="color-item color5"></a></li>
+        </ul>
+      </div>
+      <button id="sticky-add">
+        <img src="/images/icon-sticky-add.svg" alt="付箋を追加する" class="add-button">
+      </button>
+    </div>
   </footer>
 </div>
 
