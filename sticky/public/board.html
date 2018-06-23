@@ -28,8 +28,14 @@
 
 <!-- .Sticky -->
 <div v-for="(value, index) in position">
-  <div v-for="(value2, index2) in value" class="sticky color1" :style="{top:value2.position_y + 'px', left:value2.position_x + 'px'}">
-    <textarea v-model="value2.title" @click="editSticky(value2)"></textarea>
+  <div v-for="(value2, index2) in value" 
+    class="sticky color1" 
+    v-bind:style="{top : getPosison(value2).y+'px', left : getPosison(value2).x+'px'}"
+    draggable="true"
+    @dragstart="dragstart(value2, $event)"
+    @dragend="dragend(value2, $event)">
+    <!-- <textarea v-model="value2.title" @click="editSticky(value2)"></textarea> -->
+    <textarea v-model="value2.title"></textarea>
     <ul class="action clearfix">
       <li><a href="" class="action-icon good"><i class="far fa-thumbs-up fa-fw"></i></a></li>
       <li><a href="" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>

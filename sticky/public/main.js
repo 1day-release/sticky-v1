@@ -30,7 +30,10 @@ new Vue({
     board: {},
     boardId: null,
     position: [],
-    stickyPositon: []
+    stickyPositon: [],
+    offsetX:0,
+    offsetY:0,
+    stickySize:{x:200,y:200}
   },
   mounted () {
     this.boardId = getUrllets().board_id
@@ -70,24 +73,40 @@ new Vue({
         })
       })
       position.push([stickyId])
-      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '後醍醐天皇', background_color: '#FF0000', tag: '室町時代', position_x: 300, position_y: 300}, sticky_position: position});
+      socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: {sticky_id: stickyId, title: '後醍醐天皇', background_color: '#FF0000', tag: '室町時代', position_x: 3, position_y: 3}, sticky_position: position});
     },
-  boxClick:  function(item){
-    console.log("test")
-    this.message = "test"
+  activeSticky:  function(item){
+    item.title = "test"
+    if(item.isActive){
+        item.isActive = false;
+    }else{
+        item.isActive = true;
+    }
   },
-  dragstart (item,e) {
+  getPosison(item){
+    console.log(item)
+    return {x:item.position_x * this.stickySize.x, y:item.position_y * this.stickySize.y }
+  }, 
+  dragstart (item, e) {
     this.draggingItem = item
-    e.target.style.opacity = 0.5;
-    e.pageY
+    this.offsetx = e.layerX;
+    this.offsety = e.layerY;
+    console.log("x",e.offsetX ,"y",e.offsetY)
   },
-  dragend (item,e) {
-    e.target.style.opacity = 1;
-    console.log("x",e.pageX,"y",e.pageY)
-
-    this.top = e.pageY - 120
-    this.left = e.pageX
-
+  dragend (item, e) {
+      e.target.style.opacity = 1;
+      console.log("x",e.pageX,"y",e.pageY)
+      console.log("offsetx",this.offsetX ,"offsety",this.offsetY)                
+      let board_obj = document.getElementById("board-area")
+      let board_size = board_obj.getBoundingClientRect()
+      next_position = {"x":e.pageX - this.offsetX,
+                  "y":e.pageY - this.offsetY - (window.pageYOffset + board_size.top)}
+      console.log("board_pos",window.pageYOffset + board_size.top)
+      console.log("pos",next_position)
+      next_position = this.convertPosition(next_position)
+      item.position_x = Math.round(next_position.x/this.stickySize.x)
+      item.position_y = Math.round(next_position.y/this.stickySize.y)
+      console.log("pos_next",this.convertPosition(next_position))                
   },
   editBoardTitle () {
     title = ''
@@ -101,6 +120,12 @@ new Vue({
       value.title = title
       socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
     }
-  }
+  },  
+  convertPosition (pos){
+    let next_position = {x: (pos.x-(this.stickySize.x/2))/this.stickySize.x, y: (pos.y-(this.stickySize.y/2))/this.stickySize.y}
+    next_position = {x:(Math.round(next_position.x)*this.stickySize.x),
+                y:(Math.round(next_position.y)*this.stickySize.y)}
+    return next_position
+}
 }
 })
