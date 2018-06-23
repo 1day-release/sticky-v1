@@ -61,12 +61,14 @@ button {
 }
 
 .wrapper {
+  box-sizing: border-box;
   position: absolute;
   z-index: 10;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  width: 100%;
   max-width: 800px;
   padding: 0 20px;
   max-height: 420px;
@@ -94,35 +96,6 @@ p small {
   margin-bottom: 20px;
   font-size: 1.2rem;
   font-weight: normal;
-}
-
-.input-text {
-  position: relative;
-  margin: 80px 0 60px;
-}
-
-.input-text::before,.input-text::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  height: 1px;
-  background-color: #fff;
-}
-
-.input-text::before {
-  opacity: 0.5;
-}
-
-.input-text::after {
-  width: 0;
-  transition-duration: 0.3s;
-}
-
-.input-text.focus::after {
-  width: 100%;
 }
 
 input[type=text] {
@@ -162,6 +135,35 @@ input[type=text]::-moz-placeholder {
 input[type=text]:-ms-input-placeholder {
   color: #fff;
   opacity: 0.7;
+}
+
+input[type=text]:focus + .input-text::after {
+  width: 100%;
+}
+
+.input-text {
+  position: relative;
+  margin: 0 0 60px;
+}
+
+.input-text::before,.input-text::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  height: 1px;
+  background-color: #fff;
+}
+
+.input-text::before {
+  opacity: 0.5;
+}
+
+.input-text::after {
+  width: 0;
+  transition-duration: 0.3s;
 }
 
 button {
