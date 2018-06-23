@@ -55,10 +55,10 @@
 -->
 <div v-for="(value, index) in position">
   <div v-for="(value2, index2) in value" v-if="value2" :class="{active: activeStickyId === value2.sticky_id}" class="sticky color1"
-    v-bind:style="{top : getPosison(value2).y+'px', left : getPosison(value2).x+'px', background: value2.background_color}"
+    v-bind:style="{top : getPosison(index,index2).y+'px', left : getPosison(index,index2).x+'px', background: value2.background_color}"
     draggable="true"
     @dragstart="dragstart(value2, $event)"
-    @dragend="dragend(value2, $event)"
+    @dragend="dragend(value2,index,index2, $event)"
     @click="activeSticky(value2.sticky_id, $event)"
     >
     <textarea v-model="value2.title" @change="changeStickyTitle(value2)"></textarea>
