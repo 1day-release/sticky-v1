@@ -28,6 +28,7 @@ new Vue({
   data: {
     message: 'ここにテキストが入ります',
     isActive: false,
+    activeUser: 0,
     top: 0,
     left: 0,
     board: {},
@@ -35,6 +36,7 @@ new Vue({
     position: [],
     stickyPositon: [],
     sticky_data:{},
+    activeStickyId: null,
     offsetX:0,
     offsetY:0,
     stickySize:{x:200,y:200}
@@ -46,6 +48,9 @@ new Vue({
       return
     }
     console.log('on')
+    socket.on('connect-number', (data) => {
+      this.activeUser = data
+    })
     socket.on('res-get-board', (data) => {
       console.log('Get Board', data);
       if (data.board_id == this.boardId) {
@@ -133,10 +138,7 @@ new Vue({
     socket.emit('req-edit-sticky-position', {board_id: this.boardId, sticky_position: this.position});
   },
   editBoardTitle () {
-    title = ''
-    if (title = window.prompt('ボード名の編集')) {
-      socket.emit('req-edit-board-title', {board_id: this.boardId, board_title: title});
-    }
+    socket.emit('req-edit-board-title', {board_id: this.boardId, board_title: this.board.board_title});
   },
   changeStickyTitle (value) {
     socket.emit('req-add-sticky', {board_id: this.boardId, sticky_data: value});
@@ -184,6 +186,15 @@ new Vue({
       }
     }
     return position
+  },
+  clickBoardArea () {
+    console.log('aa')
+    this.activeStickyId = null
+  },
+  activeSticky (stickyId, event) {
+    console.log('bb')
+    this.activeStickyId = stickyId
+    event.stopPropagation()
   }
 }
 })

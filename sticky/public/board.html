@@ -10,6 +10,13 @@
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet"></link>
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"></link>
   <link rel="stylesheet" href="css/app.css" rel="stylesheet"></link>
+  <script src="//unpkg.com/desvg@1.0.0/desvg.js"></script>
+  <script>
+    window.addEventListener('load', function(){
+      deSVG('.add-button', true);
+      deSVG('.delete-button', true);
+    });
+  </script>
 </head>
 <body>
 
@@ -18,15 +25,19 @@
 <div class="l-header">
   <header>
     <h1 class="logo">Sticky</h1>
-    <h2 class="board-title" @click="editBoardTitle">{{board.board_title}}</h2>
+    <h2 class="board-title">
+      <input type="text" name="" id="board_title_edit" v-model="board.board_title" maxlength="20"  @change="editBoardTitle"/>
+    </h2>
+    <p class="people"><label>Active User:</label><span>10</span></p>
   </header>
 </div>
 
 <main v-if="board" role="main">
 
-<div id="board-area">
+<div id="board-area" @click="clickBoardArea">
 
 <!-- .Sticky -->
+<!--
 <div v-for="(value, index) in position">
   <div v-for="(value2, index2) in value" v-if="value2" class="sticky color1"
   v-bind:style="{top : getPosison(value2).y+'px', left : getPosison(value2).x+'px', background: value2.background_color}"
@@ -41,15 +52,67 @@
       <li><a href="javascript:void(0)" @click="removeSticky(value2.sticky_id)" class="action-icon comment"><i class="far fa-comment fa-fw"></i></a></li>
   </div>
 </div>
+-->
+<div v-for="(value, index) in position">
+  <div v-for="(value2, index2) in value" v-if="value2" :class="{active: activeStickyId === value2.sticky_id}" class="sticky color1"
+    v-bind:style="{top : getPosison(value2).y+'px', left : getPosison(value2).x+'px', background: value2.background_color}"
+    draggable="true"
+    @dragstart="dragstart(value2, $event)"
+    @dragend="dragend(value2, $event)"
+    @click="activeSticky(value2.sticky_id, $event)"
+    >
+    <textarea v-model="value2.title" @change="changeStickyTitle(value2)"></textarea>
+    <p class="nice" v-if="value2.reaction.good > 0">{{value2.reaction.good}}</p>
+    <div class="balloon">
+      <div class="balloon-item">
+        <div class="action">
+          <button @click="goodSticky(value2)">
+            <img src="/images/icon-thumbsup.svg" alt="" />
+          </button>
+          <span @click="ungoodSticky(value2)">{{value2.reaction.good}}</span>
+        </div>
+      </div>
+      <div class="balloon-item">
+        <ul class="color clearfix">
+          <li><a href="#" @click="changeStickyBackgroundColor(value2, '#ade4f3')" class="color-item color1" :class="{active: value2.background_color === '#ade4f3'}"></a></li>
+          <li><a href="#" @click="changeStickyBackgroundColor(value2, '#cae69a')" class="color-item color2" :class="{active: value2.background_color === '#cae69a'}"></a></li>
+          <li><a href="#" @click="changeStickyBackgroundColor(value2, '#fff087')" class="color-item color3" :class="{active: value2.background_color === '#fff087'}"></a></li>
+          <li><a href="#" @click="changeStickyBackgroundColor(value2, '#ffbf78')" class="color-item color4" :class="{active: value2.background_color === '#ffbf78'}"></a></li>
+          <li><a href="#" @click="changeStickyBackgroundColor(value2, '#fdb1d2')" class="color-item color5" :class="{active: value2.background_color === '#fdb1d2'}"></a></li>
+        </ul>
+      </div>
+      <div class="balloon-item">
+        <button class="delete" @click="removeSticky(value2.sticky_id)">
+          <img src="/images/icon-trash.svg" alt="付箋を削除する" class="delete-button">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- /.Sticky -->
 
 </div><!-- /#board-area -->
 
 </main>
-<footer style="position:fixed; bottom: 0">
-  <button @click="addSticky('#FEEF8D')">黄色付箋追加</button>
-  <button @click="addSticky('#AFE4F2')">青付箋追加</button>
-</footer>
+<div class="l-footer">
+  <footer>
+    <div class="sticky-add">
+      <div class="balloon">
+        <label class="label">作成</label>
+        <ul class="color clearfix">
+          <li><a href="#" @click="addSticky('#ade4f3')" class="color-item color1"></a></li>
+          <li><a href="#" @click="addSticky('#cae69a')" class="color-item color2"></a></li>
+          <li><a href="#" @click="addSticky('#fff087')" class="color-item color3"></a></li>
+          <li><a href="#" @click="addSticky('#ffbf78')" class="color-item color4"></a></li>
+          <li><a href="#" @click="addSticky('#fdb1d2')" class="color-item color5"></a></li>
+        </ul>
+      </div>
+      <button id="sticky-add">
+        <img src="/images/icon-sticky-add.svg" alt="付箋を追加する" class="add-button">
+      </button>
+    </div>
+  </footer>
+</div>
 </div>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
