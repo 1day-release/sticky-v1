@@ -205,7 +205,7 @@ new Vue({
     event.stopPropagation()
   },
   backTop () {
-    location.href = ''
+    location.href = '/'
   }
 }
 })
