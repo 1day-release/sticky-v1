@@ -11,6 +11,15 @@ html {
   }
 }
 
+button {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+}
+
 .clearfix {
   &::after {
     content: "";
@@ -24,6 +33,10 @@ html {
 #container {
   width: 100%;
   min-width: $pc-min-width;
+
+  &.top {
+    color: #fff;
+  }
 }
 
 .wrap {

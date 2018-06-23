@@ -33,6 +33,10 @@ button {
 #container {
   width: 100%;
   min-width: $pc-min-width;
+
+  &.top {
+    color: #fff;
+  }
 }
 
 .wrap {
