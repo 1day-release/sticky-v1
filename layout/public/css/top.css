@@ -112,6 +112,7 @@ input[type=text] {
   color: #fff;
   background-color: transparent;
   outline: none;
+  letter-spacing: 0.1em;
 }
 
 input[type=text]:placeholder-shown {
@@ -145,7 +146,7 @@ input[type=text]:focus + .input-text::after {
 
 .input-text {
   position: relative;
-  margin: 0 0 60px;
+  margin: 0 0 30px;
 }
 
 .input-text::before,.input-text::after {
@@ -182,13 +183,36 @@ button {
   transition-duration: 0.3s;
 }
 
-button:hover {
-  color: #000;
-  background-color: #fff;
+@media screen and (min-width: 641px) {
+  button:hover {
+    color: #000;
+    background-color: #fff;
+  }
 }
 
 @media screen and (max-width: 640px) {
   #container {
     min-width: 320px;
+  }
+
+  .wrapper {
+    max-height: 330px;
+  }
+
+  .logo {
+    margin-bottom: 50px;
+  }
+
+  p {
+    margin: 50px 0 20px;
+    font-size: 2.0rem;
+  }
+
+  p small {
+    margin-bottom: 10px;
+  }
+
+  input[type=text] {
+    font-size: 1.8rem;
   }
 }

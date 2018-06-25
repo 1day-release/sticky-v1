@@ -584,7 +584,6 @@ button {
   }
 
   #board-area {
-    box-sizing: border-box;
     overflow-x: scroll;
     height: calc(100% - 63px);
     min-height: calc(100vh - 63px);
@@ -593,6 +592,8 @@ button {
   }
 
   .l-header {
+    position: fixed;
+    z-index: 80;
     height: 63px;
     padding: 20px 15px;
   }

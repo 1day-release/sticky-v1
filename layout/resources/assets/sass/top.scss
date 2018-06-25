@@ -23,6 +23,10 @@
   max-height: 420px;
   margin: auto;
   text-align: center;
+
+  @media #{$device-s} {
+    max-height: 330px;
+  }
 }
 
 // Header
@@ -32,6 +36,10 @@
   font-family: $ff-sans-serif;
   font-size: 2.0rem;
   font-weight: 900;
+
+  @media #{$device-s} {
+    margin-bottom: 50px;
+  }
 }
 
 // Main
@@ -43,11 +51,20 @@ p {
   font-weight: bold;
   letter-spacing: 0.1em;
 
+  @media #{$device-s} {
+    margin: 50px 0 20px;
+    font-size: 2.0rem;
+  }
+
   small {
     display: block;
     margin-bottom: 20px;
     font-size: 1.2rem;
     font-weight: normal;
+
+    @media #{$device-s} {
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -63,8 +80,13 @@ input[type=text] {
   color: #fff;
   background-color: transparent;
   outline: none;
+  letter-spacing: 0.1em;
 
   @include placeholderColor(#fff, 0.7);
+
+  @media #{$device-s} {
+    font-size: 1.8rem;
+  }
 
   &:focus {
     &+.input-text {
@@ -77,7 +99,7 @@ input[type=text] {
 
 .input-text {
   position: relative;
-  margin: 0 0 60px;
+  margin: 0 0 30px;
 
   &::before,
   &::after {
@@ -114,8 +136,10 @@ button {
   border-radius: 30px;
   transition-duration: $duration;
 
-  &:hover {
-    color: #000;
-    background-color: #fff;
+  @media #{$device-l} {
+    &:hover {
+      color: #000;
+      background-color: #fff;
+    }
   }
 }
