@@ -64,7 +64,7 @@ button {
 
 #board-area {
   position: relative;
-  height: 100%;
+  height: calc(100% - 93px);
   min-height: calc(100vh - 93px);
 }
 
@@ -95,10 +95,6 @@ button {
   text-decoration: none;
   color: #000;
   transition-duration: 0.3s;
-}
-
-.logo a:hover {
-  opacity: 0.6;
 }
 
 .board-title,.board-title input[type=text] {
@@ -165,13 +161,10 @@ button {
   transition-duration: 0.3s;
 }
 
-.url-copy-button:hover {
-  opacity: 0.7;
-}
-
 .url-copy-complete {
   box-sizing: border-box;
   position: absolute;
+  z-index: 40;
   top: 80px;
   right: 20px;
   display: block;
@@ -253,7 +246,6 @@ button {
   display: block;
   margin: auto;
   background-color: #000;
-  transition-duration: 0.3s;
   opacity: 0;
 }
 
@@ -281,11 +273,6 @@ button {
   background-color: #000;
   border-radius: 50%;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-  transition-duration: 0.3s;
-}
-
-#sticky-add:hover {
-  opacity: 0.7;
 }
 
 #sticky-add .add-button {
@@ -314,7 +301,7 @@ button {
   padding: 15px 20px;
   padding-right: 13px;
   border: 4px solid transparent;
-  margin: 5px;
+  margin: 20px;
   font-family: "Montserrat", "Noto Sans", sans-serif;
   line-height: 1.8;
   font-size: 1.2rem;
@@ -567,6 +554,106 @@ button {
 .delete-button {
   width: 18px;
   vertical-align: text-bottom;
+}
+
+@media screen and (min-width: 641px) {
+  .logo a:hover {
+    opacity: 0.6;
+  }
+
+  .url-copy-button:hover {
+    opacity: 0.7;
+  }
+
+  .sticky-add .color-item::before,.sticky-add .color-item::after {
+    transition-duration: 0.3s;
+  }
+
+  #sticky-add {
+    transition-duration: 0.3s;
+  }
+
+  #sticky-add:hover {
+    opacity: 0.7;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  #container {
+    min-width: 320px;
+  }
+
+  #board-area {
+    overflow-x: scroll;
+    height: calc(100% - 63px);
+    min-height: calc(100vh - 63px);
+    padding-bottom: 40px;
+    margin-top: 63px;
+  }
+
+  .l-header {
+    position: fixed;
+    z-index: 80;
+    height: 63px;
+    padding: 20px 15px;
+  }
+
+  .logo {
+    left: 20px;
+    height: 18px;
+    font-size: 1.8rem;
+  }
+
+  .board-title {
+    display: none;
+  }
+
+  .board-title,.board-title input[type=text] {
+    font-size: 1.8rem;
+  }
+
+  .url-copy-button {
+    right: 15px;
+    width: 40px;
+    padding: 0;
+    font-size: 0;
+    background-image: url(../images/icon-link.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px auto;
+    fill: #fff;
+  }
+
+  .url-copy-complete {
+    top: 65px;
+    width: 150px;
+    padding: 15px 10px;
+  }
+
+  .sticky-add {
+    bottom: 15px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .sticky-add .balloon {
+    max-width: 280px;
+    padding: 23px 30px;
+  }
+
+  #sticky-add .add-button {
+    width: 20px;
+  }
+
+  .balloon {
+    min-width: 250px;
+    padding: 12px 20px;
+    padding-right: 15px;
+  }
+
+  .action > span {
+    min-width: 1.5em;
+  }
 }
 
 @-webkit-keyframes anime1 {

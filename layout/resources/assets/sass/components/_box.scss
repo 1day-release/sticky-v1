@@ -15,7 +15,7 @@
   padding: 15px 20px;
   padding-right: 13px;
   border: 4px solid transparent;
-  margin: 5px;
+  margin: 20px;
   font-family: $ff-sans-serif;
   line-height: 1.8;
   font-size: 1.2rem;
@@ -116,6 +116,12 @@
   opacity: 0;
   pointer-events: none;
 
+  @media #{$device-s} {
+    min-width: 250px;
+    padding: 12px 20px;
+    padding-right: 15px;
+  }
+
   &::after {
     content: "";
     position: absolute;
@@ -185,6 +191,10 @@
     font-family: $ff-sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
+
+    @media #{$device-s} {
+      min-width: 1.5em;
+    }
 
     &::before {
       content: ":";
