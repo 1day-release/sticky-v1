@@ -120,6 +120,10 @@ input[type=text] {
   &::after {
     width: 0;
     transition-duration: $duration;
+
+    @media #{$device-s} {
+      transition-duration: $duration * 1.25;
+    }
   }
 }
 

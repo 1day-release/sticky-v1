@@ -215,4 +215,8 @@ button {
   input[type=text] {
     font-size: 1.8rem;
   }
+
+  .input-text::after {
+    transition-duration: 0.375s;
+  }
 }
