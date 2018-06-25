@@ -1,108 +1,262 @@
-var fs = require('fs');
-var http = require('http');
-var server = http.createServer();
+const fs = require('fs')
+const moment = require('moment')
+const request = require('request')
+const sha512 = require('js-sha512').sha512
+const http = require('http')
+const server = http.createServer()
 
-var sha512 = require('js-sha512').sha512;
+// *************************
+// Functions
+// *************************
+const writeLog = (...arg) => {
+  const fileName = arg.shift()
+  let text = ''
+  arg.forEach((value, index) => {
+    text += JSON.stringify(value) + ((arg.length - 1 > index) ? ', ' : '')
+  })
+  text = moment().format() + ' ' + text + '\n'
+  fs.appendFile(fileName, text, 'utf-8', (e) => {
+    if (!e) return 
+    console.log('Append log error', e)
+  })
+}
+const postSlack = (token, channel, username, text) => {
+  var url = 'https://slack.com/api/chat.postMessage?token=' + token + '&channel=' + channel + '&username=' + username + '&text=' + encodeURIComponent(text)
+  request(url, function (error, response, body) {
+    if (error || response.statusCode != 200) {
+      console.log('Post slack error')
+    }
+  })
+}
 
-server.on('request', function(req, res) {
-  console.log(req.url);
-  var stream = fs.createReadStream('index.html');
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  stream.pipe(res);
-});
+const postSlackErrorLog = (...arg) => {
+  // const channelName = arg.shift()
+  let text = ''
+  arg.forEach((value, index) => {
+    text += JSON.stringify(value) + ((arg.length - 1 > index) ? ', ' : '')
+  })
+  text = moment().format() + ' ' + text + '\n'
+  postSlack('xoxp-379185118336-380773472022-388164489590-22055d7d999c775eeb53628e57c1bd30', 'sticky-error', 'server-error', text)
+}
 
-var io = require('socket.io').listen(server);
-server.listen(18000);
+const log = (...arg) => {
+  console.log(...arg)
 
-var board = {board: []};
-var connectNumber = 0;
-io.sockets.on('connection', function(socket) {
-  connectNumber += 1;
-  socket.emit('connect-number', connectNumber);
-  socket.broadcast.emit('connect-number', connectNumber);
-  socket.on('disconnect', function (data) {
-    connectNumber -= 1;
-    socket.broadcast.emit('connect-number', connectNumber);
+  // arg.unshift('console.log')
+  // writeLog(...arg)
+}
+
+const errorLog = (...arg) => {
+  arg.unshift('Error log')
+  console.log(...arg)
+
+  arg[0] = 'error.log'
+  writeLog(...arg)
+
+  arg.shift()
+  postSlackErrorLog(...arg)
+}
+
+const loadBoard = () => {
+  let board = {board: []}
+  try {
+    board = JSON.parse(fs.readFileSync('board.json', 'utf8'))
+  } catch (e) {
+    // nop
+  }
+  return board
+}
+
+const saveBoard = (board) => {
+  try {
+    fs.writeFileSync('board.json', JSON.stringify(board))
+  } catch (e) {
+    errorLog(e + '')
+  }
+}
+
+const backupBoard = () => {
+  try {
+    fs.copyFile('board.json', 'board-backup/board-' + moment().format() + '.json', (err) => {
+      if (err) errorLog(err + '')
+    });
+  } catch (e) {
+    errorLog(e + '')
+  }
+}
+
+// *************************
+// Main
+// *************************
+try {
+  setInterval(() => {
+    backupBoard()
+  }, 30 * 60 * 1000) // 30min
+
+  server.on('request', function(req, res) {
+    log(req.url)
+    let stream = fs.createReadStream('index.html')
+    res.writeHead(200, {'Content-Type': 'text/html'})
+    stream.pipe(res)
   })
 
-  socket.on('req-create-board', function (data) {
-    console.log('create-board', data);
-    
-    var boardId = sha512((new Date()).getTime() + '');
+  let io = require('socket.io').listen(server)
+  server.listen(18000)
 
-    board.board.push({
-      board_id: boardId,
-      board_title: '新規ボード',
-      sticky: []
+  let board = loadBoard()
+  let connectNumber = 0
+  io.sockets.on('connection', function(socket) {
+    connectNumber += 1
+    socket.emit('connect-number', connectNumber)
+    socket.broadcast.emit('connect-number', connectNumber)
+    socket.on('disconnect', function (data) {
+      connectNumber -= 1
+      socket.broadcast.emit('connect-number', connectNumber)
     })
 
-    socket.emit('res-create-board', boardId);
-    console.log(board)
-    // socket.broadcast.emit('command-out', data);
-  });
+    socket.on('req-create-board', function (data) {
+      log('create-board', data)
 
-  socket.on('req-get-board', function (data) {
-    console.log('get-board', data);
+      let boardId = sha512((new Date()).getTime() + '')
 
-    boardData = null
-    board.board.forEach((value) => {
-      if (value.board_id == data.board_id) boardData = value 
+      board.board.push({
+        board_id: boardId,
+        board_title: data.board_title,
+        sticky: [],
+        sticky_position: []
+      })
+
+      socket.emit('res-create-board', boardId)
+      log(board)
+      saveBoard(board)
     })
 
-    socket.emit('res-get-board', boardData);
-    console.log(board)
-    // socket.broadcast.emit('command-out', data);
-  });
+    socket.on('req-get-board', function (data) {
+      log('get-board', data)
 
-  socket.on('req-add-sticky', function (data) {
-    console.log('add-sticky', data);
+      boardData = null
+      board.board.forEach((value) => {
+        if (value && value.board_id == data.board_id) boardData = value 
+      })
 
-    boardExistIndex = null
-    board.board.forEach((value, index) => {
-      if (value.board_id == data.board_id) boardExistIndex = index 
+      socket.emit('res-get-board', boardData)
+      log(board)
+      // socket.broadcast.emit('command-out', data)
     })
 
-   if (boardExistIndex == null) {
-     console.log('Error!!', 'Not exist board')
-     return 
-   }
+    socket.on('req-edit-board-title', function (data) {
+      log('edit-board-title', data)
 
-    stickyExistIndex = null
-    console.log(board.board, boardExistIndex, board.board[boardExistIndex])
-    board.board[boardExistIndex].sticky.forEach((value, index) => {
-      if (value.sticky_id == data.sticky_data.sticky_id) stickyExistIndex = index 
+      boardExistIndex = null
+      board.board.forEach((value, index) => {
+        if (value && value.board_id == data.board_id) boardExistIndex = index 
+      })
+
+      if (boardExistIndex == null) {
+        log('Error!!', 'Not exist board')
+        return 
+      }
+
+      board.board[boardExistIndex].board_title = data.board_title
+
+      socket.emit('res-get-board', board.board[boardExistIndex])
+      socket.broadcast.emit('res-get-board', board.board[boardExistIndex])
+      // socket.emit('res-get-board', boardData)
+      log(board)
+      saveBoard(board)
     })
 
-    if (stickyExistIndex != null) {
-      board.board[boardExistIndex].sticky[stickyExistIndex] = data.sticky_data 
-    } else {
-      board.board[boardExistIndex].sticky.push(data.sticky_data)
-    }
+    socket.on('req-add-sticky', function (data) {
+      log('add-sticky', data)
 
-    socket.emit('res-get-board', board.board[boardExistIndex]);
-    socket.broadcast.emit('res-get-board', board.board[boardExistIndex]);
-    // socket.emit('res-get-board', boardData);
-    console.log(board)
-  });
+      boardExistIndex = null
+      board.board.forEach((value, index) => {
+        if (value && value.board_id == data.board_id) boardExistIndex = index 
+      })
 
-  socket.on('req-edit-board-title', function (data) {
-    console.log('edit-board-title', data);
+      if (boardExistIndex == null) {
+        log('Error!!', 'Not exist board')
+        return 
+      }
 
-    boardExistIndex = null
-    board.board.forEach((value, index) => {
-      if (value.board_id == data.board_id) boardExistIndex = index 
+      stickyExistIndex = null
+      log(board.board, boardExistIndex, board.board[boardExistIndex])
+      board.board[boardExistIndex].sticky.forEach((value, index) => {
+        if (value && data.sticky_data && value.sticky_id == data.sticky_data.sticky_id) stickyExistIndex = index 
+      })
+
+      if (stickyExistIndex != null) {
+        board.board[boardExistIndex].sticky[stickyExistIndex] = data.sticky_data 
+      } else {
+        // data.sticky_data.sticky_id = sha512((new Date()).getTime() + '')
+        board.board[boardExistIndex].sticky.push(data.sticky_data)
+      }
+
+      if (data.sticky_position) {
+        board.board[boardExistIndex].sticky_position = data.sticky_position
+      }
+
+      socket.emit('res-get-board', board.board[boardExistIndex])
+      socket.broadcast.emit('res-get-board', board.board[boardExistIndex])
+      socket.emit('res-get-board', board.board[boardExistIndex])
+      socket.broadcast.emit('res-get-board', board.board[boardExistIndex])
+      // socket.emit('res-get-board', boardData)
+      log(board)
+      saveBoard(board)
     })
 
-   if (boardExistIndex == null) {
-     console.log('Error!!', 'Not exist board')
-     return 
-   }
+    socket.on('req-edit-sticky-position', function (data) {
+      log('edit-sticky-position', data)
 
-    board.board[boardExistIndex].board_title = data.board_title
+      boardExistIndex = null
+      board.board.forEach((value, index) => {
+        if (value && value.board_id == data.board_id) boardExistIndex = index 
+      })
 
-    socket.emit('res-get-board', board.board[boardExistIndex]);
-    socket.broadcast.emit('res-get-board', board.board[boardExistIndex]);
-    // socket.emit('res-get-board', boardData);
-    console.log(board)
-  });
-});
+      if (boardExistIndex == null) {
+        log('Error!!', 'Not exist board')
+        return 
+      }
+
+      if (data.sticky_position) {
+        board.board[boardExistIndex].sticky_position = data.sticky_position
+      }
+
+      socket.emit('res-get-board', board.board[boardExistIndex])
+      socket.broadcast.emit('res-get-board', board.board[boardExistIndex])
+      // socket.emit('res-get-board', boardData)
+      log(board)
+      saveBoard(board)
+    })
+
+    socket.on('req-remove-sticky', function (data) {
+      log('remove-sticky', data)
+
+      boardExistIndex = null
+      board.board.forEach((value, index) => {
+        if (value && value.board_id == data.board_id) boardExistIndex = index 
+      })
+
+      if (boardExistIndex == null) {
+        log('Error!!', 'Not exist board')
+        return 
+      }
+
+      if (data.sticky_id) {
+        board.board[boardExistIndex].sticky.forEach((value, index) => {
+          if (value && value.sticky_id === data.sticky_id) {
+            board.board[boardExistIndex].sticky.splice(index, 1)
+          }
+        })
+      }
+
+      socket.emit('res-get-board', board.board[boardExistIndex])
+      socket.broadcast.emit('res-get-board', board.board[boardExistIndex])
+      // socket.emit('res-get-board', boardData)
+      log(board)
+      saveBoard(board)
+    })
+  })
+} catch(e) {
+  errorLog(e + '')
+}
