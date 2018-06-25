@@ -15,7 +15,7 @@
   padding: 15px 20px;
   padding-right: 13px;
   border: 4px solid transparent;
-  margin: 5px;
+  margin: 20px;
   font-family: $ff-sans-serif;
   line-height: 1.8;
   font-size: 1.2rem;
@@ -115,6 +115,11 @@
 
   opacity: 0;
   pointer-events: none;
+
+  @media #{$device-s} {
+    min-width: 240px;
+    padding: 12px 20px;
+  }
 
   &::after {
     content: "";

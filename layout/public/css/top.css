@@ -186,3 +186,9 @@ button:hover {
   color: #000;
   background-color: #fff;
 }
+
+@media screen and (max-width: 640px) {
+  #container {
+    min-width: 320px;
+  }
+}

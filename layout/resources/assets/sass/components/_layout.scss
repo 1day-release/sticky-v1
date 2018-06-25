@@ -8,8 +8,20 @@
 // =====================================
 #board-area {
   position: relative;
-  height: 100%;
+  height: calc(100% - 93px);
   min-height: calc(100vh - 93px);
+  // min-width: $pc-min-width;
+
+  @media #{$device-s} {
+    box-sizing: border-box;
+    overflow-x: scroll;
+    height: calc(100% - 63px);
+    min-height: calc(100vh - 63px);
+    // height: 100%;
+    // min-height: 100vh;
+    padding-bottom: 40px;
+    margin-top: 63px;
+  }
 }
 
 
@@ -23,6 +35,11 @@
   padding: 30px 20px;
   border-bottom: 1px solid $color-border-gray;
   background-color: #fff;
+
+  @media #{$device-s} {
+    height: 63px;
+    padding: 20px 15px;
+  }
 }
 
 .logo {
@@ -37,24 +54,42 @@
   font-weight: 900;
   color: $color-text-black;
 
+  @media #{$device-s} {
+    left: 20px;
+    height: 18px;
+    font-size: 1.8rem;
+  }
+
   a {
     text-decoration: none;
     color: #000;
     transition-duration: $duration;
 
-    &:hover {
-      opacity: 0.6;
+
+    @media #{$device-l} {
+      &:hover {
+        opacity: 0.6;
+      }
     }
   }
 }
 
 .board-title {
+
+  @media #{$device-s} {
+    display: none;
+  }
+
   &,
   input[type=text] {
     text-align: center;
     font-family: $ff-sans-serif;
     font-size: 2.6rem;
     font-weight: 900;
+
+    @media #{$device-s} {
+      font-size: 1.8rem;
+    }
   }
 
   input[type=text] {
@@ -122,14 +157,30 @@
     cursor: pointer;
     transition-duration: $duration;
 
-    &:hover {
-      opacity: 0.7;
+    @media #{$device-s} {
+      right: 15px;
+      width: 40px;
+      padding: 0;
+      font-size: 0;
+      background-image: url(#{$root}icon-link.svg);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 20px auto;
+      fill: #fff;
+    }
+
+    @media #{$device-l} {
+
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 
   &-complete {
     box-sizing: border-box;
     position: absolute;
+    z-index: 40;
     top: 80px;
     right: 20px;
     // right: -200px;
@@ -141,6 +192,12 @@
     font-weight: bold;
     background-color: #dcdcdc;
     opacity: 0;
+
+    @media #{$device-s} {
+      top: 65px;
+      width: 150px;
+      padding: 15px 10px;
+    }
 
     &.active {
       animation: anime1 4s ease;
@@ -181,12 +238,21 @@
   height: 100px;
   margin: 0 auto;
 
+  @media #{$device-s} {
+    bottom: 15px;
+    width: 60px;
+    height: 60px;
+  }
+
   &:hover {
 
-    .balloon {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    // @media #{$device-l} {
+
+      .balloon {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    // }
   }
 
   .balloon {
@@ -201,6 +267,11 @@
     padding: 23px 60px;
     margin: 0 auto;
     border-radius: 35px;
+
+    @media #{$device-s} {
+      max-width: 280px;
+      padding: 23px 30px;
+    }
 
     &::after {
       top: calc(100% - 15px);
@@ -236,9 +307,12 @@
         display: block;
         margin: auto;
         background-color: #000;
-        transition-duration: $duration;
 
         opacity: 0;
+
+        @media #{$device-l} {
+          transition-duration: $duration;
+        }
       }
 
       &::before {
@@ -269,10 +343,13 @@
   background-color: #000;
   border-radius: 50%;
   box-shadow: 0 0 5px rgba(#000, 0.7);
-  transition-duration: $duration;
 
-  &:hover {
-    opacity: 0.7;
+  @media #{$device-l} {
+    transition-duration: $duration;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 
   .add-button {
@@ -285,6 +362,10 @@
     margin: auto;
     fill: #fff;
     stroke: #fff;
+
+    @media #{$device-s} {
+      width: 20px;
+    }
 
     path {
       fill: #fff;
