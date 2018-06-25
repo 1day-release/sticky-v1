@@ -144,6 +144,21 @@ try {
       // socket.broadcast.emit('command-out', data)
     })
 
+    socket.on('req-get-board-list', function (data) {
+      log('get-board-list', data)
+
+      boardList = board.board.map((value) => {
+        return {
+          board_id: value.board_id,
+          board_title: value.board_title
+        }
+      })
+
+      socket.emit('res-get-board-list', boardList)
+      log(board)
+      // socket.broadcast.emit('command-out', data)
+    })
+
     socket.on('req-edit-board-title', function (data) {
       log('edit-board-title', data)
 
