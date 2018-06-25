@@ -36,6 +36,10 @@ button {
   width: 100%;
   min-width: $pc-min-width;
 
+  @media #{$device-s} {
+    min-width: $sp-min-width;
+  }
+
   &.top {
     position: relative;
     min-width: $sp-min-width;
