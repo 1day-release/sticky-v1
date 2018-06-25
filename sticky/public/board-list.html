@@ -1,0 +1,58 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Sticky</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <link rel="shortcut icon" href="favicon.gif">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet"></link>
+  <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"></link>
+  <!--<link rel="stylesheet" href="/css/top.css" rel="stylesheet"></link>-->
+  <!-- <script src="//unpkg.com/desvg@1.0.0/desvg.js"></script> -->
+</head>
+<body>
+  <div id="container">
+    <table border="1">
+      <tr>
+        <th>Title</th>
+        <th>Sticky Count</th>
+        <th>Link</th>
+      </tr>
+      <tr v-for="value in list">
+        <td>{{value.board_title}}</td>
+        <td>{{value.sticky_count}}</td>
+        <td><a :href="'/board.html?board_id=' + value.board_id">Link</a></td>
+      </tr>
+    </table>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script type="text/javascript">
+
+new Vue({
+    el: '#container',
+    data: {
+      list: []
+    },
+    mounted () {
+      const socket = io.connect('http://163.44.171.245:18000');
+      socket.on("connect", function() {
+        console.log('connected');
+        socket.emit('req-get-board-list');
+      });
+
+      socket.on('res-get-board-list', (data) => {
+        console.log(data)
+        this.list = data
+      });
+    },
+    methods: {
+    }
+})
+</script>
+
+</body>
+</html>
