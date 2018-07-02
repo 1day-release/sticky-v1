@@ -160,6 +160,32 @@ try {
       // socket.broadcast.emit('command-out', data)
     })
 
+    socket.on('req-delete-board', function (data) {
+      log('delete-board', data)
+
+      boardExistIndex = null
+      board.board.forEach((value, index) => {
+        if (value && value.board_id == data.board_id) boardExistIndex = index 
+      })
+
+      if (boardExistIndex == null) {
+        log('Error!!', 'Not exist board')
+        return 
+      }
+
+      if (data.password !== board.board[boardExistIndex].board_title + '1222') {
+        socket.emit('res-delete-board', 'failure')
+        return
+      }
+
+      board.board.splice(boardExistIndex, 1)
+      socket.emit('res-delete-board', 'success')
+      // socket.broadcast.emit('res-get-board', board.board[boardExistIndex])
+      // socket.emit('res-get-board', boardData)
+      log(board)
+      saveBoard(board)
+    })
+
     socket.on('req-edit-board-title', function (data) {
       log('edit-board-title', data)
 

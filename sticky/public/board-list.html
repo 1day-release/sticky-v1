@@ -25,6 +25,7 @@
         <td>{{value.board_title}}</td>
         <td>{{value.sticky_count}}</td>
         <td><a :href="'/board.html?board_id=' + value.board_id">Link</a></td>
+        <td><button @click="deleteBoard(value.board_id)">Delete</button></td>
       </tr>
     </table>
   </div>
@@ -32,13 +33,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 <script type="text/javascript">
 
+const socket = io.connect('http://163.44.171.245:18000');
 new Vue({
     el: '#container',
     data: {
       list: []
     },
     mounted () {
-      const socket = io.connect('http://163.44.171.245:18000');
       socket.on("connect", function() {
         console.log('connected');
         socket.emit('req-get-board-list');
@@ -48,8 +49,20 @@ new Vue({
         console.log(data)
         this.list = data
       });
+
+      socket.on('res-delete-board', (data) => {
+        if (data === 'success') {
+          alert('削除しました。')
+          location.reload()
+          return
+        }
+        alert('パスワードが違います。')
+      });
     },
     methods: {
+      deleteBoard (boardId) {
+        socket.emit('req-delete-board', {board_id: boardId, password: window.prompt('パスワードを入力してください')});
+      }
     }
 })
 </script>
