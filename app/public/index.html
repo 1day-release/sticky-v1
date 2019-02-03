@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Sticky - Easy sticky note discussion</title>
+  <meta name="keywords" content="Sticky,stickynote,discussion,share,付箋" />
+  <meta name="description" content="アカウント不要で付箋の共有を行えます。Discussion for free, No login, No downloads, Create sticky note board. Share the link." />
+  <meta name="apple-mobile-web-app-title" content="Sticky">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="57x57" href="apple-touch-icon/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="apple-touch-icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon/apple-touch-icon-152x152.png">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet"></link>
+  <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"></link>
+  <link rel="stylesheet" href="/css/top.css" rel="stylesheet"></link>
+  <!-- <script src="//unpkg.com/desvg@1.0.0/desvg.js"></script> -->
+</head>
+<body>
+
+<div id="container" class="top" style="background-image: url(//source.unsplash.com/category/creative);">
+
+<main role="main">
+  <div class="wrapper">
+    <h1 class="logo">Sticky</h1>
+    <p>
+      <small>Hello!</small>
+      Create sticky board.
+    </p>
+
+    <input type="text" name="title" id="title" value="" maxlength="20" placeholder="ボードタイトルを入力" />
+    <div class="input-text"></div>
+
+    <button onclick="createBoard()">ボードを作成</button>
+  </div>
+</main>
+
+</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+              <script type="text/javascript">
+                var socket = io.connect('https://websocket.sticky.1day-release.com');
+socket.on("connect", function() {
+  console.log('connected');
+});
+socket.on('res-create-board', (data) => {
+  console.log('Created Board.', data);
+  location.href = 'board.html?board_id=' + data
+});
+window.createBoard = () => {
+  let title = document.querySelector('#title').value
+  if (!title) return
+
+  socket.emit('req-create-board', {board_title: title});
+}
+      </script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+// ***********************************************
+//  Global Variables
+// ***********************************************
+$directory: "./assets/";
+
+
+// Size
+// =====================================
+// $sp-min-width: 320px;
+// $sp-max-width: 750px;
+
+$pc-min-width: 1000px;
+$pc-max-width: 1080px;
+
+$pc-header-height: 50px;
+
+$duration: 0.3s;
+
+
+// Color
+// =====================================
+$color-brand: (
+  "main": #0f002b,
+    "main-light": #281a41,
+    "main-bright": #392c4f,
+  "sub": #40c799,
+  "accent": #ffce00,
+  "base": #fff,
+
+  "black": #000c36,
+  "gray": #3e3254,
+
+  "shadow": rgba( #000, 0.15 ),
+
+  "border": rgba( #000c36, 0.2 ),
+    "border-light": rgba( #000c36, 0.1 ),
+
+  "text": #000c36,
+    "text-gray": #cbcdd6,
+    "text-white": #fff
+);
+
+
+// Font Face
+// =====================================
+// Windows 用 Medium 指定の游ゴシック
+@font-face {
+  font-family: "Yu Gothic M";
+  src: local("Yu Gothic Medium");
+}
+
+// font-weight: bold の時は通常どおり Bold 書体を使わせる
+@font-face {
+  font-family: "Yu Gothic M";
+  src: local("Yu Gothic Bold");
+  font-weight: bold;
+}
+
+
+// Font Family
+// =====================================
+$ff:
+  YuGothic, "Yu Gothic", "游ゴシック体", "游ゴシック",
+  "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",
+  "メイリオ", Meiryo,
+  Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+
+$ff-mono:
+  'Source Code Pro', monospace;
+
+
+// Media Queries
+// =====================================
+// $device-s: "screen and (max-width: #{$sp-max-width})";
+// $device-l: "screen and (min-width: #{$sp-max-width+1})";

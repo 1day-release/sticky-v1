@@ -1,0 +1,21 @@
+
+@mixin scrollBarRight($width: 10px, $radius: 10px, $color: #ccc, $bg: #fff, $border: null) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color;
+    border-radius: $radius;
+  }
+
+  &::-webkit-scrollbar-track {
+    @if $border != null {
+      border-left: $border;
+    }
+    background: $bg;
+    @if $border == null {
+      border-radius: $radius;
+    }
+  }
+}

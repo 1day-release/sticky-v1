@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+// ***********************************************
+//  Base
+// ***********************************************
+.clearfix {
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+html {
+  font-family: $ff !important;
+  font-size: 10px !important;
+  background-color: map-get($color-brand, "base");
+
+  body {
+    font-size: 1.3rem;
+  }
+}
+
+#app {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  min-width: $pc-max-width;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.wrap {
+  box-sizing: border-box;
+  width: $pc-min-width;
+  margin: 0 auto;
+}

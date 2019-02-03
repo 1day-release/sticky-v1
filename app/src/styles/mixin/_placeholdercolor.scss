@@ -1,0 +1,36 @@
+
+@mixin select-reset() {
+  appearance: none;
+  outline: none;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+@mixin placeholderColor($color, $opacity) {
+  &:placeholder-shown {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &:-moz-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &::-moz-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+
+  &:-ms-input-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+}
