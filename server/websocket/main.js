@@ -101,7 +101,7 @@ try {
   })
 
   let io = require('socket.io').listen(server)
-  server.listen(18000)
+  server.listen(5000)
 
   let board = loadBoard()
   let connectNumber = 0
