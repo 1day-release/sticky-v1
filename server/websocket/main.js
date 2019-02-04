@@ -2,25 +2,8 @@ const fs = require('fs')
 const moment = require('moment')
 const request = require('request')
 const sha512 = require('js-sha512').sha512
-const https = require('https')
-
-const keys = {
-  key : './certs/key.key',
-  cert : './certs/cert.pem',
-  chain : './certs/chain.pem',
-  fullchain : "./certs/fullchain.pem"
-}
-
-let server
-try {
-  server = http.createServer({
-    key: fs.readFileSync(keys.key),
-    cert: [fs.readFileSync(keys.cert)],
-    ca: [fs.readFileSync(keys.chain), fs.readFileSync(keys.fullchain)]
-  })
-} catch (e) {
-  server = http.createServer()
-}
+const http = require('http')
+const server = http.createServer()
 
 // *************************
 // Functions
