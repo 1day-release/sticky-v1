@@ -2,8 +2,8 @@ const fs = require('fs')
 const moment = require('moment')
 const request = require('request')
 const sha512 = require('js-sha512').sha512
-const http = require('http')
-const server = http.createServer()
+const https = require('https')
+const server = https.createServer()
 
 // *************************
 // Functions
