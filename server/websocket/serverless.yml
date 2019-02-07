@@ -1,0 +1,59 @@
+service: serverless-sticky-websocket
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stackName: ${self:service}-${self:provider.stage}
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-southeast-2'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "execute-api:ManageConnections"
+      Resource:
+        - "arn:aws:execute-api:*:*:**/@connections/*"
+    - Effect: Allow
+      Action:
+        - "dynamodb:PutItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Query"
+        - "dynamodb:Scan"
+      Resource:
+        - '*'
+
+  # required for websocket apis
+  # this selects from your payload what your "routeKey" parameter is
+  # from the websocket event types on your function
+  websocketApiRouteSelectionExpression: $request.body.action
+
+plugins:
+  - serverless-websockets-plugin
+
+functions:
+  connect:
+    handler: index.connect
+    events:
+      - websocket:
+          routeKey: $connect
+  disconnect:
+    handler: index.disconnect
+    events:
+      - websocket:
+          routeKey: $disconnect
+
+resources:
+  Resources:
+    stickyConnections:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: connectionId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: connectionId
+            KeyType: HASH
+        ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
