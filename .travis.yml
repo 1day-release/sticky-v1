@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+  - "10"
+dist: trusty
+sudo: false
+cache: npm
+branches:
+  only:
+    - develop
+    - stating
+    - master
+install:
+  - cd app
+  - npm install
+script:
+  - npm run build
+deploy:
+  - provider: s3
+    access_key_id: "$AWS_ACCESS_KEY_ID"
+    secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+    bucket: sticky.1day-release.com
+    region: ap-northeast-1
+    local_dir: dist
+    endpoint: s3-ap-northeast-1.amazonaws.com
+    skip_cleanup: true
+    on:
+      branch: master
+notifications:
+  slack:
+    secure: UxmsoRBd5ggSlrOvdzdY5SbSFGAfQgz8RLDnLbQ+UWmu+TeFGQuy8C+nYZaD3dU2P7X7k3g8lmYhvjFFXW9nndpigiij32ykLmV8y7XC2KhTU7F7zPJZaBUEhk/3uvccbhNXxK6gB9kb08yZyGtyXWdkouqEqrINxoSB1QoYybUy38NZ+/BBEQ+gV+HLeMUSIscAiw/4Iqmwnq+AqXdDKc0gWiq335cykhgtdXXoC0yJn3O+LQo3Fu552S5OPMr7x9cwQPwwq/VvAqWBERSKK9CVU6+s4HEwzB6l+mOHLYo2YpgKszUD8FIOXXJWNqaNpt9EwM1A+8o5ykI01K/GboazLiFU2cyB7sPcxy8fXMdbwFhxvS1QL7Sga8HDLKSjKsJQyM5gdJaKMemycjyGlEA+RNGDBvpRmtpyo8gacp+9apax10bQbS3mE8J1Gjmway/tbUhdWBsTzELDH+Emgtv5LSBrTmNLXJed97mPsZbpB5unnyLi5cd70+/dtXIWF+z4LEKrj0HPhVlnkbJTT9HbDcJWB5LYSyDd5q97H8UL+PV0XAYx0/xHtbl/Xe/zEkhvwTcqyiZrgdRlyAdKcDSYylAib2I8w6G+NeBLUeKJy0grtiy84zoQNRvriEcFoKg5t6ZfWLUXDTibVaKTUEoInofAoqyPnuFQv06l1xQ=
