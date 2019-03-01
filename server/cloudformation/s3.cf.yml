@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  Environment:
+    Description: Environment
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - stg
+      - prd
+Conditions:
+  IsProduction: !Equals [!Ref Environment, prd]
+  IsStaging: !Equals [!Ref Environment, stg]
+  IsDevelopment: !Equals [!Ref Environment, dev]
+
+Resources:
+  Websitebucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      AccessControl: PublicReadWrite
+      BucketName: !If
+        - IsProduction
+        - "sticky.1day-release.com"
+        - !Join
+          - "."
+          - - !Ref Environment
+            - "sticky.1day-release.com"
+      Tags:
+        - Key: Name
+          Value: !If
+            - IsProduction
+            - "sticky.1day-release.com"
+            - !Join
+              - "."
+              - - !Ref Environment
+                - "sticky.1day-release.com"
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+        RoutingRules:
+          - RoutingRuleCondition:
+              HttpErrorCodeReturnedEquals: "404"
+            RedirectRule:
+              HostName: !If
+                - IsProduction
+                - "sticky.1day-release.com"
+                - !If
+                  - IsStaging
+                  - "stg.sticky.1day-release.com"
+                  - !If
+                    - IsDevelopment
+                    - "dev.sticky.1day-release.com"
+                    - ""
+              Protocol: https
+              ReplaceKeyPrefixWith: "#!"
+
+  WebsitebucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket:
+        Ref: Websitebucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              - !Join
+                - ""
+                - - !GetAtt
+                    - Websitebucket
+                    - Arn
+                  - /*
+            Principal: "*"
