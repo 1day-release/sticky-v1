@@ -4,11 +4,16 @@ module.exports = function () {
   const AWS = require('aws-sdk')
   const DDB = new AWS.DynamoDB({ apiVersion: '2012-10-08' })
   
-  const stickyId = this.request.stickyId - 1
+  const stickyItem = this.request.stickyItem
   
-  if (!stickyId) {
+  if (!stickyItem) {
+    return this.response('updateBoardSticky', 400, 'stickyItem is required.') 
+  }  
+  
+  if (!stickyItem.stickyId) {
     return this.response('updateBoardSticky', 400, 'stickyId is required.') 
   }
+  const stickyId = stickyItem.stickyId - 1
   
   const boardId = this.request.boardId
   

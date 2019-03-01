@@ -10,11 +10,10 @@ module.exports = function () {
     return this.response('updateBoardSticky', 400, 'stickyItem is required.') 
   }  
   
-  const stickyId = this.request.stickyId - 1
-  
-  if (stickyId !== 0 && !stickyId) {
+  if (!stickyItem.stickyId) {
     return this.response('updateBoardSticky', 400, 'stickyId is required.') 
   }
+  const stickyId = stickyItem.stickyId - 1
   
   const boardId = this.request.boardId
   
