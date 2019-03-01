@@ -269,7 +269,7 @@
 | -- [Any] | 自由な構造(全上書き) |  |
 
 ```
-{"action": "updateBoardSticky", "data": {"boardId": "0123456789", "stickyId": 3, "stickyItem": {"text": "test2", "positionX": 5, "positionY": 2}}}
+{"action": "updateBoardSticky", "data": {"boardId": "0123456789", "stickyItem": {"stickyId": 3, "text": "test2", "positionX": 5, "positionY": 2}}}
 ```
 
 ### レスポンス
@@ -320,7 +320,7 @@
 | -- stickyId | 付箋ID |  |
 
 ```
-{"action": "deleteBoardSticky", "data": {"boardId": "0123456789", "stickyId": 2}}
+{"action": "deleteBoardSticky", "data": {"boardId": "0123456789", "stickyItem": {"stickyId": 2}}}
 ```
 
 ### レスポンス
